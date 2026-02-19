@@ -96,7 +96,6 @@ namespace Fitness.DataAccess
                 new Role { Id = 2, Name = "Admin" }
             );
 
-            // 2. Muskelgruppen setzen
             modelBuilder.Entity<MuscleGroup>().HasData(
                 new MuscleGroup { Id = 1, Name = "Brust" },
                 new MuscleGroup { Id = 2, Name = "Rücken" },
@@ -106,7 +105,6 @@ namespace Fitness.DataAccess
                 new MuscleGroup { Id = 6, Name = "Trizeps" }
             );
 
-            // 3. RegistrationToken (Beispiel für einen initialen System-Token)
             modelBuilder.Entity<RegistrationToken>().HasData(
                 new RegistrationToken
                 {

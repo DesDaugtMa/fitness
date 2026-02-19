@@ -1,5 +1,4 @@
 name: CI/CD Pipeline
-
 on:
   push:
     branches:
@@ -7,7 +6,7 @@ on:
 
 jobs:
   build-and-test:
-    name: Build, Test & Bundle
+    name: Build, Test & Publish
     runs-on: ubuntu-latest
     
     steps:
@@ -17,7 +16,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.x' # Passe die Version an deine App an
+          dotnet-version: '10.0.x'
 
       - name: Restore dependencies
         run: dotnet restore ./Source/Fitness.slnx
@@ -28,25 +27,8 @@ jobs:
       #- name: Run Tests
       #  run: dotnet test ./Source/Fitness.sln --no-build --verbosity normal --configuration Release
 
-      - name: Build & Publish App (Linux-x64)
-        # Wir bauen hier direkt für die Ziel-Plattform, damit alle Files (auch deps.json) da sind
-        run: dotnet publish ./Source/Fitness/Fitness.csproj -c Release -r linux-x64 --no-self-contained -o ./publish
-
-      - name: Install EF Core CLI
-        run: dotnet tool install --global dotnet-ef
-
-      - name: Create EF Core Migration Bundle
-        run: |
-          dotnet ef migrations bundle \
-          --project ./Source/Fitness.DataAccess \
-          --startup-project ./Source/Fitness/Fitness.csproj \
-          --runtime linux-x64 \
-          --configuration Release \
-          --no-build \
-          --force \
-          -o ./publish/efbundle
-        # Hinweis: Falls deine DbContext-Klasse in einem anderen Projekt liegt, 
-        # musst du hier ggf. "--project src/Infrastructure" etc. anhängen.
+      - name: Publish App
+        run: dotnet publish ./Source/Fitness/Fitness.csproj --no-build --configuration Release -o ./publish
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -55,29 +37,16 @@ jobs:
           path: ./publish
 
   deploy:
-    name: Deploy & Migrate
+    name: Deploy
     needs: build-and-test
-    runs-on: self-hosted # <--- Hier wird dein lokaler Server aktiv!
+    runs-on: self-hosted
     
     steps:
-    
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
           name: app-artifact
           path: ./temp-deploy
-
-      - name: Apply Database Migrations
-        run: |
-          # FIX: Dummy-Ordner und Datei anlegen, damit der Host-Builder in C# nicht crasht
-          mkdir -p ./Config
-          echo '{}' > ./Config/appsettings.json
-          
-          # Macht das Bundle ausführbar
-          chmod +x ./temp-deploy/efbundle
-          
-          # Führt die Migration auf der Datenbank aus
-          ./temp-deploy/efbundle --connection "${{ secrets.PROD_DB_CONNECTION }}"
 
       - name: Sync files to production folder
         run: |
