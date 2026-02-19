@@ -38,6 +38,10 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-success w-100">Registrieren</button>
             </div>
+
+            <a asp-action="GoogleLogin" asp-route-token="@Context.GetRouteValue("id")" class="btn btn-danger">
+                Mit Google registrieren
+            </a>
         </form>
     </div>
 </div>
