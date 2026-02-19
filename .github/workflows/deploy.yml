@@ -29,7 +29,7 @@ jobs:
       #  run: dotnet test ./Source/Fitness.sln --no-build --verbosity normal --configuration Release
 
       - name: Publish App
-        run: dotnet publish ./Source/Fitness/Fitness.csproj -r linux-x64 --no-build --configuration Release -o ./publish
+        run: dotnet publish ./Source/Fitness/Fitness.csproj --no-build --configuration Release -o ./publish
 
       - name: Install EF Core CLI
         run: dotnet tool install --global dotnet-ef
