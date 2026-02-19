@@ -1,0 +1,80 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build, Test & Bundle
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x' # Passe die Version an deine App an
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run Tests
+        run: dotnet test --no-build --verbosity normal --configuration Release
+
+      - name: Publish App
+        run: dotnet publish --no-build --configuration Release -o ./publish
+
+      - name: Install EF Core CLI
+        run: dotnet tool install --global dotnet-ef
+
+      # Erstellt eine eigenständige, ausführbare Datei mit allen Migrationen
+      - name: Create EF Core Migration Bundle
+        run: dotnet ef migrations bundle --runtime linux-x64 -o ./publish/efbundle
+        # Hinweis: Falls deine DbContext-Klasse in einem anderen Projekt liegt, 
+        # musst du hier ggf. "--project src/Infrastructure" etc. anhängen.
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-artifact
+          path: ./publish
+
+  deploy:
+    name: Deploy & Migrate
+    needs: build-and-test
+    runs-on: self-hosted # <--- Hier wird dein lokaler Server aktiv!
+    
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-artifact
+          path: ./temp-deploy
+
+      - name: Apply Database Migrations
+        run: |
+          # Macht das Bundle ausführbar
+          chmod +x ./temp-deploy/efbundle
+          # Führt die Migration auf der MSSQL Datenbank aus
+          ./temp-deploy/efbundle --connection "${{ secrets.PROD_DB_CONNECTION }}"
+
+      - name: Sync files to production folder
+        run: |
+          # rsync kopiert die Dateien effizient. 
+          # WICHTIG: Achte darauf, dass deine appsettings.Production.json auf dem Server 
+          # nicht durch das Deployment überschrieben wird, falls du dort Passwörter hast.
+          sudo rsync -av --exclude='appsettings.Production.json' ./temp-deploy/ /var/www/fitness/
+          sudo chown -R www-data:www-data /var/www/fitness/
+
+      - name: Restart App Service
+        run: sudo systemctl restart Fitness.service
+
+      - name: Cleanup temporary files
+        run: rm -rf ./temp-deploy
