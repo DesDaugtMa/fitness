@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="../Fitness.DataAccess/Fitness.DataAccess.csproj" />
-  <Project Path="Fitness.csproj" />
-</Solution>

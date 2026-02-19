@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
 using Fitness.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Fitness.Controllers
