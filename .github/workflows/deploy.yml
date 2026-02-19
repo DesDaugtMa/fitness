@@ -35,8 +35,8 @@ jobs:
         run: dotnet tool install --global dotnet-ef
 
       # Erstellt eine eigenständige, ausführbare Datei mit allen Migrationen
-      - name: Create EF Core Migration Bundle
-        run: dotnet ef migrations bundle --runtime linux-x64 -o ./publish/efbundle
+      #- name: Create EF Core Migration Bundle
+       # run: dotnet ef migrations bundle --runtime linux-x64 -o ./publish/efbundle
         # Hinweis: Falls deine DbContext-Klasse in einem anderen Projekt liegt, 
         # musst du hier ggf. "--project src/Infrastructure" etc. anhängen.
 
@@ -58,12 +58,12 @@ jobs:
           name: app-artifact
           path: ./temp-deploy
 
-      - name: Apply Database Migrations
-        run: |
+      #- name: Apply Database Migrations
+        #run: |
           # Macht das Bundle ausführbar
-          chmod +x ./temp-deploy/efbundle
+          #chmod +x ./temp-deploy/efbundle
           # Führt die Migration auf der MSSQL Datenbank aus
-          ./temp-deploy/efbundle --connection "${{ secrets.PROD_DB_CONNECTION }}"
+          #./temp-deploy/efbundle --connection "${{ secrets.PROD_DB_CONNECTION }}"
 
       - name: Sync files to production folder
         run: |
