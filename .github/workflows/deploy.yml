@@ -60,10 +60,6 @@ jobs:
     runs-on: self-hosted # <--- Hier wird dein lokaler Server aktiv!
     
     steps:
-      - name: Create dummy config for EF
-        run: |
-          mkdir -p ./Source/Fitness/Config
-          echo '{"ConnectionStrings": {"DefaultConnection": ""}}' > ./Source/Fitness/Config/appsettings.json
     
       - name: Download Artifact
         uses: actions/download-artifact@v4
@@ -73,9 +69,14 @@ jobs:
 
       - name: Apply Database Migrations
         run: |
+          # FIX: Dummy-Ordner und Datei anlegen, damit der Host-Builder in C# nicht crasht
+          mkdir -p ./Config
+          echo '{}' > ./Config/appsettings.json
+          
           # Macht das Bundle ausführbar
           chmod +x ./temp-deploy/efbundle
-          # Führt die Migration auf der MSSQL Datenbank aus
+          
+          # Führt die Migration auf der Datenbank aus
           ./temp-deploy/efbundle --connection "${{ secrets.PROD_DB_CONNECTION }}"
 
       - name: Sync files to production folder
