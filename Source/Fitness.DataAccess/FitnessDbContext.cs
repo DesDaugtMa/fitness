@@ -90,6 +90,31 @@ namespace Fitness.DataAccess
                 .WithMany()
                 .HasForeignKey(e => e.CreatorId)
                 .OnDelete(DeleteBehavior.SetNull); // Die Übung bleibt erhalten, hat aber keinen Creator mehr
+
+            modelBuilder.Entity<Role>().HasData(
+                new Role { Id = 1, Name = "User" },
+                new Role { Id = 2, Name = "Admin" }
+            );
+
+            // 2. Muskelgruppen setzen
+            modelBuilder.Entity<MuscleGroup>().HasData(
+                new MuscleGroup { Id = 1, Name = "Brust" },
+                new MuscleGroup { Id = 2, Name = "Rücken" },
+                new MuscleGroup { Id = 3, Name = "Beine" },
+                new MuscleGroup { Id = 4, Name = "Schultern" },
+                new MuscleGroup { Id = 5, Name = "Bizeps" },
+                new MuscleGroup { Id = 6, Name = "Trizeps" }
+            );
+
+            // 3. RegistrationToken (Beispiel für einen initialen System-Token)
+            modelBuilder.Entity<RegistrationToken>().HasData(
+                new RegistrationToken
+                {
+                    Token = "INITIAL_SETUP_TOKEN",
+                    CreatedAt = DateTime.UtcNow,
+                    IsActive = true,
+                }
+            );
         }
     }
 }
