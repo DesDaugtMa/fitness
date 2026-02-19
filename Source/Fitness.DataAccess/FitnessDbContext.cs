@@ -111,7 +111,7 @@ namespace Fitness.DataAccess
                 new RegistrationToken
                 {
                     Token = "INITIAL_SETUP_TOKEN",
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc),
                     IsActive = true,
                 }
             );
