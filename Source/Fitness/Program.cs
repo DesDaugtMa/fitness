@@ -1,5 +1,8 @@
 using Fitness.Config;
 using Fitness.DataAccess;
+using Fitness.DataAccess.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fitness
@@ -27,6 +30,19 @@ namespace Fitness
             builder.Services.AddDbContext<FitnessDbContext>(options =>
                 options.UseSqlServer(appSettings!.ConnectionStrings!.Default));
 
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
+                options.SlidingExpiration = true;
+            });
+
+            // --- NEU: PasswordHasher als Singleton registrieren ---
+            builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -40,6 +56,7 @@ namespace Fitness
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();
