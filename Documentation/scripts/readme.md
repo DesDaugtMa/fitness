@@ -12,3 +12,11 @@ Der Standart Admin-User von MSSQL lautet `sa`.
 Nicht vergessen, die IP des Rechners in der Firewall freizuschalten, um Remote zugreifen zu können.
 
 ---
+
+## [install-nginx.sh](./install-nginx.sh)
+
+Dieses Script installiert Nginx und Certbot.
+
+>⚠️ Nicht vergessen, die Variablen im Script zu setzen.
+
+---
