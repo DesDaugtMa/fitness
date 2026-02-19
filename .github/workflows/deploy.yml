@@ -28,18 +28,13 @@ jobs:
       #- name: Run Tests
       #  run: dotnet test ./Source/Fitness.sln --no-build --verbosity normal --configuration Release
 
-      - name: Publish App
-        run: dotnet publish ./Source/Fitness/Fitness.csproj --no-build --configuration Release -o ./publish
+      - name: Build & Publish App (Linux-x64)
+        # Wir bauen hier direkt für die Ziel-Plattform, damit alle Files (auch deps.json) da sind
+        run: dotnet publish ./Source/Fitness/Fitness.csproj -c Release -r linux-x64 --no-self-contained -o ./publish
 
       - name: Install EF Core CLI
         run: dotnet tool install --global dotnet-ef
 
-      # 1. Restore explizit für die Ziel-Runtime
-      - name: Restore dependencies for Bundle
-        run: dotnet restore ./Source/Fitness.slnx --runtime linux-x64
-
-      # 2. Bundle erstellen mit --no-build
-      # WICHTIG: Nutze --startup-project, damit EF die Konfiguration findet
       - name: Create EF Core Migration Bundle
         run: |
           dotnet ef migrations bundle \
@@ -48,6 +43,7 @@ jobs:
           --runtime linux-x64 \
           --configuration Release \
           --no-build \
+          --force \
           -o ./publish/efbundle
         # Hinweis: Falls deine DbContext-Klasse in einem anderen Projekt liegt, 
         # musst du hier ggf. "--project src/Infrastructure" etc. anhängen.
