@@ -1,3 +1,7 @@
+using Fitness.Config;
+using Fitness.DataAccess;
+using Microsoft.EntityFrameworkCore;
+
 namespace Fitness
 {
     public class Program
@@ -8,6 +12,20 @@ namespace Fitness
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            IHostBuilder hostBuilder = builder.Host.ConfigureAppConfiguration(configurationBuilder =>
+            {
+                configurationBuilder.Sources.Clear();
+                configurationBuilder.AddJsonFile($"Config/appsettings.json", false);
+                configurationBuilder.AddJsonFile($"Config/appsettings.{builder.Environment.EnvironmentName}.json", true);
+                configurationBuilder.AddEnvironmentVariables();
+                configurationBuilder.AddUserSecrets<Program>(true);
+            });
+
+            AppSettings appSettings = builder.Configuration.GetSection(nameof(AppSettings)).Get<AppSettings>();
+
+            builder.Services.AddDbContext<FitnessDbContext>(options =>
+                options.UseSqlServer(appSettings!.ConnectionStrings!.Default));
 
             var app = builder.Build();
 
