@@ -20,16 +20,16 @@ jobs:
           dotnet-version: '10.0.x' # Passe die Version an deine App an
 
       - name: Restore dependencies
-        run: dotnet restore ./Source/Fitness.slnx -r linux-x64
+        run: dotnet restore ./Source/Fitness.slnx
 
       - name: Build project
-        run: dotnet build ./Source/Fitness.slnx --no-restore -r linux-x64 --configuration Release
+        run: dotnet build ./Source/Fitness.slnx --no-restore --configuration Release
 
       #- name: Run Tests
       #  run: dotnet test ./Source/Fitness.sln --no-build --verbosity normal --configuration Release
 
       - name: Publish App
-        run: dotnet publish ./Source/Fitness/Fitness.csproj --no-build --configuration Release -o ./publish
+        run: dotnet publish ./Source/Fitness/Fitness.csproj -r linux-x64 --no-build --configuration Release -o ./publish
 
       - name: Install EF Core CLI
         run: dotnet tool install --global dotnet-ef
