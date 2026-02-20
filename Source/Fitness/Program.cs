@@ -54,6 +54,7 @@ namespace Fitness
 
             // --- NEU: PasswordHasher als Singleton registrieren ---
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+            builder.Services.AddSingleton<AppSettings>(appSettings);
 
             var app = builder.Build();
 

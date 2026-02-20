@@ -1,4 +1,5 @@
-﻿using Fitness.DataAccess;
+﻿using Fitness.Config;
+using Fitness.DataAccess;
 using Fitness.DataAccess.Models;
 using Fitness.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Security.Claims;
 
 namespace Fitness.Controllers
@@ -16,11 +18,13 @@ namespace Fitness.Controllers
     {
         private readonly FitnessDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly AppSettings _appSettings;
 
-        public AccountController(FitnessDbContext context, IPasswordHasher<User> passwordHasher)
+        public AccountController(FitnessDbContext context, IPasswordHasher<User> passwordHasher, AppSettings appSettings)
         {
             _context = context;
             _passwordHasher = passwordHasher;
+            _appSettings = appSettings;
         }
 
         [HttpGet("Account/Register/{id?}")]
@@ -114,6 +118,8 @@ namespace Fitness.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl = "/")
         {
+            ViewBag.clientid = _appSettings.GoogleAuthSettings!.ClientId;
+
             if (User.Identity != null && User.Identity.IsAuthenticated)
                 return LocalRedirect(returnUrl);
 
