@@ -23,7 +23,7 @@ namespace Fitness.Controllers
             _passwordHasher = passwordHasher;
         }
 
-        [HttpGet("Account/Register/{id}")]
+        [HttpGet("Account/Register/{id?}")]
         public IActionResult Register(string id)
         {
             RegistrationToken? registrationToken = _context.RegistrationTokens.FirstOrDefault(rt => rt.Token == id);

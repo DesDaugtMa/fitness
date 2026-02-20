@@ -50,7 +50,7 @@ namespace Fitness
             {
                 options.ClientId = appSettings!.GoogleAuthSettings!.ClientId!;
                 options.ClientSecret = appSettings!.GoogleAuthSettings!.ClientSecret!;
-            }); ;
+            });
 
             // --- NEU: PasswordHasher als Singleton registrieren ---
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
