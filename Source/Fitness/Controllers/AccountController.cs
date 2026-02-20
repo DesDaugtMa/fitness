@@ -3,6 +3,8 @@ using Fitness.DataAccess.Models;
 using Fitness.Models.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +23,7 @@ namespace Fitness.Controllers
             _passwordHasher = passwordHasher;
         }
 
-        [HttpGet]
+        [HttpGet("Account/Register/{id}")]
         public IActionResult Register(string id)
         {
             RegistrationToken? registrationToken = _context.RegistrationTokens.FirstOrDefault(rt => rt.Token == id);
@@ -170,6 +172,100 @@ namespace Fitness.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GoogleLogin(string token)
+        {
+            // Wir speichern den Registrierungstoken im AuthenticationProperties, 
+            // damit er nach dem Google-Redirect wieder verfügbar ist.
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleResponse"),
+                Items = { { "RegistrationToken", token } }
+            };
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GoogleResponse()
+        {
+
+            // 1. Authentifizierung prüfen und Daten auslesen
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (!result.Succeeded) return RedirectToAction("Login");
+
+            var email = result.Principal.FindFirst(ClaimTypes.Email)?.Value;
+            var name = result.Principal.FindFirst(ClaimTypes.Name)?.Value;
+            result.Properties.Items.TryGetValue("RegistrationToken", out string? tokenValue);
+
+            if (string.IsNullOrEmpty(email)) return RedirectToAction("Login");
+
+            // 2. Datenbankabfragen: Bestehenden User und Token (falls vorhanden) laden
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+            var passedToken = await _context.RegistrationTokens.FirstOrDefaultAsync(rt => rt.Token == tokenValue);
+
+            bool allowLogin = false;
+
+            // --- 3. LOGIK-ENTSCHEIDUNGEN ---
+
+            // Fall 1: KEIN Token übergeben -> Darf der User trotzdem rein?
+            if (string.IsNullOrEmpty(tokenValue))
+            {
+                if (user != null)
+                {
+                    // Prüfen, ob die E-Mail/der User an einen bereits benutzten Token gebunden ist
+                    bool isLinkedToToken = await _context.RegistrationTokens.AnyAsync(rt => rt.UsedByUserId == user.Id);
+                    if (isLinkedToToken)
+                    {
+                        allowLogin = true; // Anmelden erlaubt
+                    }
+                }
+            }
+            // Fall 2 & 3: EIN Token wurde übergeben -> Ist er gültig?
+            else if (passedToken != null && passedToken.IsActive)
+            {
+                if (user == null)
+                {
+                    // Fall 2: Gültiger Token, aber NEUER User -> Registrieren
+                    user = new User
+                    {
+                        Email = email,
+                        DisplayName = name ?? email,
+                        PasswordHash = "EXTERNAL_AUTH", // Kein Passwort bei Google-Auth
+                        RoleId = 2,                     // Standardrolle
+                        AuthProvider = "Google"
+                    };
+
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();  // Speichern, um die neue user.Id zu generieren
+                }
+
+                // Fall 3 (implizit): Gültiger Token, und User existiert bereits
+                // (Wird automatisch abgehandelt, da 'user' hier nicht null ist)
+
+                // Token entwerten (gilt für Registrierung UND bestehenden User mit neuem Token)
+                passedToken.IsActive = false;
+                passedToken.UsedByUserId = user.Id;
+                await _context.SaveChangesAsync();
+
+                allowLogin = true; // Anmelden erlaubt
+            }
+
+            // --- 4. ABSCHLUSS ---
+
+            // Wenn keine der Bedingungen zutrifft (z.B. ungültiger Token, User existiert nicht)
+            if (!allowLogin)
+            {
+                return RedirectToAction("AccessDenied", "Account"); // Oder eine andere Fehlerseite
+            }
+
+            // Login durchführen
+            // ... (Deine bestehende SignInAsync-Logik mit Claims hier einfügen)
+
+            return RedirectToAction("Index", "Home");
         }
 
         // --- POST: Logout ---
