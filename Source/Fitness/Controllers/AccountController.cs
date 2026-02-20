@@ -118,8 +118,6 @@ namespace Fitness.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl = "/")
         {
-            ViewBag.clientid = _appSettings.GoogleAuthSettings!.ClientId;
-
             if (User.Identity != null && User.Identity.IsAuthenticated)
                 return LocalRedirect(returnUrl);
 

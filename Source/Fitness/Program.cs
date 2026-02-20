@@ -3,6 +3,7 @@ using Fitness.DataAccess;
 using Fitness.DataAccess.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -65,6 +66,17 @@ namespace Fitness
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            var forwardedOptions = new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            };
+            // WICHTIG: Erlaubt alle Proxys (da Ihr Nginx vermutlich ohnehin der einzige Zugang nach auﬂen ist)
+            forwardedOptions.KnownNetworks.Clear();
+            forwardedOptions.KnownIPNetworks.Clear();
+            forwardedOptions.KnownProxies.Clear();
+
+            app.UseForwardedHeaders(forwardedOptions);
 
             app.UseHttpsRedirection();
             app.UseRouting();
