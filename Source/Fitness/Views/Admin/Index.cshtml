@@ -44,8 +44,25 @@
                             @Html.DisplayFor(modelItem => item.Description)
                         </td>
                         <td>
-                            <a asp-controller="RegistrationTokens" asp-action="Details" asp-route-id="@item.Token">Details</a> |
-                            <a asp-controller="RegistrationTokens" asp-action="Delete" asp-route-id="@item.Token">Löschen</a>
+                            <a class="btn btn-outline-danger" asp-controller="RegistrationTokens" asp-action="Delete" asp-route-id="@item.Token"><i class="bi bi-trash"></i></a>
+                            @if (item.IsActive)
+                            {
+                                @if (!string.IsNullOrEmpty(item.Link))
+                                {
+                                    <button type="button"
+                                            class="btn btn-outline-secondary copy-link-btn"
+                                            data-link="@item.Link"
+                                            title="Link in die Zwischenablage kopieren">
+                                        <i class="bi bi-copy"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-outline-secondary" disabled title="Kein aktiver Link">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+                                }
+                            }
                         </td>
                     </tr>
                 }
@@ -53,3 +70,43 @@
         </table>
     </div>
 </div>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Alle Buttons mit der Klasse "copy-link-btn" suchen
+            const copyButtons = document.querySelectorAll(".copy-link-btn");
+
+            copyButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    // Den Link aus dem 'data-link' Attribut auslesen
+                    const linkToCopy = this.getAttribute("data-link");
+
+                    if (linkToCopy) {
+                        // Moderne Clipboard-API nutzen
+                        navigator.clipboard.writeText(linkToCopy).then(() => {
+
+                            // Visuelles Feedback: Icon zu einem Häkchen ändern
+                            const icon = this.querySelector("i");
+                            icon.classList.remove("bi-copy");
+                            icon.classList.add("bi-check-lg");
+
+                            // Button kurzzeitig grün machen
+                            this.classList.replace("btn-outline-secondary", "btn-success");
+
+                            // Nach 2 Sekunden wieder zurücksetzen
+                            setTimeout(() => {
+                                icon.classList.remove("bi-check-lg");
+                                icon.classList.add("bi-copy");
+                                this.classList.replace("btn-success", "btn-outline-secondary");
+                            }, 2000);
+
+                        }).catch(err => {
+                            console.error('Fehler beim Kopieren: ', err);
+                            alert("Kopieren fehlgeschlagen. Bitte manuell kopieren.");
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,4 +1,4 @@
-﻿@model Fitness.DataAccess.Models.RegistrationToken
+﻿@model Fitness.Models.ViewModels.RegistrationTokens.Create;
 
 @{
     ViewData["Title"] = "Create";
@@ -17,18 +17,15 @@
                 <input asp-for="Token" class="form-control" />
                 <span asp-validation-for="Token" class="text-danger"></span>
             </div>
-            <select asp-for="CreatedByUserId" class ="form-control" asp-items="ViewBag.CreatedByUserId" hidden></select>
-
-            <select asp-for="UsedByUserId" class ="form-control" asp-items="ViewBag.UsedByUserId" hidden></select>
-
-            <input class="form-check-input" asp-for="IsActive" hidden/>
-
-            <input asp-for="CreatedAt" class="form-control" hidden/>
 
             <div class="form-group">
-                <label asp-for="ExpiresAt" class="control-label"></label>
-                <input asp-for="ExpiresAt" class="form-control" />
-                <span asp-validation-for="ExpiresAt" class="text-danger"></span>
+                <label asp-for="AddHoursForExpiration" class="control-label"></label>
+                <select asp-for="AddHoursForExpiration" class="form-control">
+                    <option value="4">4 Stunden</option>
+                    <option value="24">1 Tag</option>
+                    <option value="168">1 Woche</option>
+                </select>
+                <span asp-validation-for="AddHoursForExpiration" class="text-danger"></span>
             </div>
 
             <div class="form-group">

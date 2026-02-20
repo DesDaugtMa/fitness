@@ -265,6 +265,8 @@ namespace Fitness.Controllers
                 return RedirectToAction("AccessDenied", "Account"); // Oder eine andere Fehlerseite
             }
 
+            user = _context.Users.Include(u => u.Role).First(u => u.Id == user.Id); // User nochmal mit Rolle laden
+
             // 1. Claims erstellen (Informationen, die im Cookie gespeichert werden)
             var claims = new List<Claim>
                         {

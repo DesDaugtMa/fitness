@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Fitness.DataAccess;
+using Fitness.DataAccess.Models;
+using Fitness.Models.ViewModels.RegistrationTokens;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Fitness.DataAccess;
-using Fitness.DataAccess.Models;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Fitness.Controllers
 {
@@ -51,8 +53,6 @@ namespace Fitness.Controllers
         // GET: RegistrationTokens/Create
         public IActionResult Create()
         {
-            ViewData["CreatedByUserId"] = new SelectList(_context.Users, "Id", "DisplayName");
-            ViewData["UsedByUserId"] = new SelectList(_context.Users, "Id", "DisplayName");
             return View();
         }
 
@@ -61,16 +61,25 @@ namespace Fitness.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Token,CreatedByUserId,UsedByUserId,IsActive,CreatedAt,ExpiresAt,Description")] RegistrationToken registrationToken)
+        public async Task<IActionResult> Create([Bind("Token,AddHoursForExpiration,Description")] Create registrationToken)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(registrationToken);
+                _context.Add(
+                    new RegistrationToken
+                    {
+                        Token = registrationToken.Token,
+                        CreatedByUserId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value),
+                        ExpiresAt = DateTime.UtcNow.AddHours(registrationToken.AddHoursForExpiration),
+                        Description = registrationToken.Description,
+                        IsActive = true,
+                        CreatedAt = DateTime.UtcNow
+                    }
+                );
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Admin");
             }
-            ViewData["CreatedByUserId"] = new SelectList(_context.Users, "Id", "DisplayName", registrationToken.CreatedByUserId);
-            ViewData["UsedByUserId"] = new SelectList(_context.Users, "Id", "DisplayName", registrationToken.UsedByUserId);
+
             return View(registrationToken);
         }
 

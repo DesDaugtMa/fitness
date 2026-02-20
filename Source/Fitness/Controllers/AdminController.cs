@@ -25,7 +25,10 @@ namespace Fitness.Controllers
             var tokens = await _context.RegistrationTokens
                 .Include(r => r.CreatedByUser)
                 .Include(r => r.UsedByUser)
+                .OrderByDescending(r => r.CreatedAt)
                 .ToListAsync();
+
+            string baseUrl = $"{Request.Scheme}://{Request.Host.Value}";
 
             model.AdminIndexViewModelRegistrationTokens = tokens.Select(r => new AdminIndexViewModelRegistrationTokens
             {
@@ -33,7 +36,10 @@ namespace Fitness.Controllers
                 IsActive = r.IsActive,
                 ExpiresAt = r.ExpiresAt,
                 UsedByUser = r.UsedByUser?.DisplayName,
-                Description = r.Description
+                Description = r.Description,
+                Link = (r.IsActive && r.ExpiresAt > DateTime.UtcNow)
+                        ? $"{baseUrl}/Account/Register/{r.Token}"
+                        : null
             }).ToList();
 
             return View(model);

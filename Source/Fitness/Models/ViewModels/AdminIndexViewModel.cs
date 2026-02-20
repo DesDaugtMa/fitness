@@ -1,4 +1,6 @@
-﻿namespace Fitness.Models.ViewModels
+﻿using System.Configuration;
+
+namespace Fitness.Models.ViewModels
 {
     public class AdminIndexViewModel
     {
@@ -12,5 +14,6 @@
         public DateTime? ExpiresAt { get; set; }
         public string? UsedByUser { get; set; }
         public string? Description { get; set; }
+        public string? Link { get; set; }
     }
 }

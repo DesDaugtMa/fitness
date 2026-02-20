@@ -4,7 +4,7 @@
     {
         public required string Token { get; set; }
 
-        public int AddDaysForExpiration { get; set; }
+        public int AddHoursForExpiration { get; set; }
 
         public required string Description { get; set; }
     }
