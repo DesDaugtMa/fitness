@@ -1,0 +1,52 @@
+﻿@model Fitness.DataAccess.Models.RegistrationToken
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>RegistrationToken</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Token" class="control-label"></label>
+                <input asp-for="Token" class="form-control" />
+                <span asp-validation-for="Token" class="text-danger"></span>
+            </div>
+            <select asp-for="CreatedByUserId" class ="form-control" asp-items="ViewBag.CreatedByUserId" hidden></select>
+
+            <select asp-for="UsedByUserId" class ="form-control" asp-items="ViewBag.UsedByUserId" hidden></select>
+
+            <input class="form-check-input" asp-for="IsActive" hidden/>
+
+            <input asp-for="CreatedAt" class="form-control" hidden/>
+
+            <div class="form-group">
+                <label asp-for="ExpiresAt" class="control-label"></label>
+                <input asp-for="ExpiresAt" class="form-control" />
+                <span asp-validation-for="ExpiresAt" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

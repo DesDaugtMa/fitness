@@ -1,0 +1,55 @@
+﻿@model Fitness.Models.ViewModels.AdminIndexViewModel
+
+<div class="row">
+    <div class="col-12">
+        <a class="btn btn-outline-success" asp-controller="RegistrationTokens" asp-action="Create">Token erstellen</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Token
+                    </th>
+                    <th>
+                        Ist Aktiv
+                    </th>
+                    <th>
+                        Ablaufdatum
+                    </th>
+                    <th>
+                        Benutzt von
+                    </th>
+                    <th>
+                        Beschreibung
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AdminIndexViewModelRegistrationTokens)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Token)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsActive)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ExpiresAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UsedByUser)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            <a asp-controller="RegistrationTokens" asp-action="Details" asp-route-id="@item.Token">Details</a> |
+                            <a asp-controller="RegistrationTokens" asp-action="Delete" asp-route-id="@item.Token">Löschen</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
