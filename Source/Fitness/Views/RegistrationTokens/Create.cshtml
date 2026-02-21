@@ -1,0 +1,49 @@
+﻿@model Fitness.Models.ViewModels.RegistrationTokens.Create;
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>RegistrationToken</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Token" class="control-label"></label>
+                <input asp-for="Token" class="form-control" />
+                <span asp-validation-for="Token" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AddHoursForExpiration" class="control-label"></label>
+                <select asp-for="AddHoursForExpiration" class="form-control">
+                    <option value="4">4 Stunden</option>
+                    <option value="24">1 Tag</option>
+                    <option value="168">1 Woche</option>
+                </select>
+                <span asp-validation-for="AddHoursForExpiration" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

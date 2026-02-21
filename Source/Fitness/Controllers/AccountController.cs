@@ -208,7 +208,7 @@ namespace Fitness.Controllers
             if (string.IsNullOrEmpty(email)) return RedirectToAction("Login");
 
             // 2. Datenbankabfragen: Bestehenden User und Token (falls vorhanden) laden
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
             var passedToken = await _context.RegistrationTokens.FirstOrDefaultAsync(rt => rt.Token == tokenValue);
 
             bool allowLogin = false;
@@ -238,8 +238,7 @@ namespace Fitness.Controllers
                     {
                         Email = email,
                         DisplayName = name ?? email,
-                        PasswordHash = "EXTERNAL_AUTH", // Kein Passwort bei Google-Auth
-                        RoleId = 2,                     // Standardrolle
+                        RoleId = 1,                     // Standardrolle
                         AuthProvider = "Google"
                     };
 
@@ -266,8 +265,29 @@ namespace Fitness.Controllers
                 return RedirectToAction("AccessDenied", "Account"); // Oder eine andere Fehlerseite
             }
 
-            // Login durchführen
-            // ... (Deine bestehende SignInAsync-Logik mit Claims hier einfügen)
+            user = _context.Users.Include(u => u.Role).First(u => u.Id == user.Id); // User nochmal mit Rolle laden
+
+            // 1. Claims erstellen (Informationen, die im Cookie gespeichert werden)
+            var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                            new Claim(ClaimTypes.Name, user.DisplayName),
+                            new Claim(ClaimTypes.Email, user.Email),
+                            new Claim(ClaimTypes.Role, user.Role.Name) // Rollen-Zuweisung!
+                        };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30)
+            };
+
+            // 2. Anmelden (Cookie setzen)
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
 
             return RedirectToAction("Index", "Home");
         }

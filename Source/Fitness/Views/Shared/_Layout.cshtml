@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Fitness.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
 </head>
 <body>
     <header>
@@ -22,6 +23,12 @@
                     @if (User.Identity!.IsAuthenticated)
                     {
                         <span class="navbar-text">Hallo, @User.Identity.Name!</span>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="nav-link" asp-controller="Admin" asp-action="Index">Admin</a>
+                        }
+
                         <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
                             <button type="submit" class="btn btn-link nav-link">Logout</button>
                         </form>
@@ -29,7 +36,6 @@
                     else
                     {
                         <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-                        <a class="nav-link" asp-controller="Account" asp-action="Register">Registrieren</a>
                     }
                 </div>
             </div>
