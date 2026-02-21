@@ -58,7 +58,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasIndex("ImageId");
 
-                    b.ToTable("Exercises");
+                    b.ToTable("Exercises", (string)null);
                 });
 
             modelBuilder.Entity("Fitness.DataAccess.Models.ExerciseMuscleGroup", b =>
@@ -76,7 +76,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasIndex("MuscleGroupId");
 
-                    b.ToTable("ExerciseMuscleGroups");
+                    b.ToTable("ExerciseMuscleGroups", (string)null);
                 });
 
             modelBuilder.Entity("Fitness.DataAccess.Models.Friendship", b =>
@@ -106,7 +106,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasIndex("RequesterId");
 
-                    b.ToTable("Friendships");
+                    b.ToTable("Friendships", (string)null);
                 });
 
             modelBuilder.Entity("Fitness.DataAccess.Models.Image", b =>
@@ -143,7 +143,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasIndex("UploaderId");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("Fitness.DataAccess.Models.MuscleGroup", b =>
@@ -163,7 +163,7 @@ namespace Fitness.DataAccess.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("MuscleGroups");
+                    b.ToTable("MuscleGroups", (string)null);
 
                     b.HasData(
                         new
@@ -248,7 +248,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasIndex("TrainingDayId");
 
-                    b.ToTable("PlanExercises");
+                    b.ToTable("PlanExercises", (string)null);
                 });
 
             modelBuilder.Entity("Fitness.DataAccess.Models.RegistrationToken", b =>
@@ -280,7 +280,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasIndex("UsedByUserId");
 
-                    b.ToTable("RegistrationTokens");
+                    b.ToTable("RegistrationTokens", (string)null);
 
                     b.HasData(
                         new
@@ -311,7 +311,7 @@ namespace Fitness.DataAccess.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
@@ -347,7 +347,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasIndex("PlanId");
 
-                    b.ToTable("TrainingDays");
+                    b.ToTable("TrainingDays", (string)null);
                 });
 
             modelBuilder.Entity("Fitness.DataAccess.Models.TrainingPlan", b =>
@@ -375,7 +375,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TrainingPlans");
+                    b.ToTable("TrainingPlans", (string)null);
                 });
 
             modelBuilder.Entity("Fitness.DataAccess.Models.User", b =>
@@ -428,7 +428,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Fitness.DataAccess.Models.WorkoutLog", b =>
@@ -466,7 +466,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasIndex("SessionId");
 
-                    b.ToTable("WorkoutLogs");
+                    b.ToTable("WorkoutLogs", (string)null);
                 });
 
             modelBuilder.Entity("Fitness.DataAccess.Models.WorkoutSession", b =>
@@ -495,7 +495,7 @@ namespace Fitness.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("WorkoutSessions");
+                    b.ToTable("WorkoutSessions", (string)null);
                 });
 
             modelBuilder.Entity("Fitness.DataAccess.Models.Exercise", b =>
