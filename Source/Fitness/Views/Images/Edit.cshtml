@@ -1,0 +1,59 @@
+﻿@model Fitness.DataAccess.Models.Image
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Image</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="UploaderId" class="control-label"></label>
+                <select asp-for="UploaderId" class="form-control" asp-items="ViewBag.UploaderId"></select>
+                <span asp-validation-for="UploaderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FileSizeBytes" class="control-label"></label>
+                <input asp-for="FileSizeBytes" class="form-control" />
+                <span asp-validation-for="FileSizeBytes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FileExtension" class="control-label"></label>
+                <input asp-for="FileExtension" class="form-control" />
+                <span asp-validation-for="FileExtension" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MimeType" class="control-label"></label>
+                <input asp-for="MimeType" class="form-control" />
+                <span asp-validation-for="MimeType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedAt" class="control-label"></label>
+                <input asp-for="CreatedAt" class="form-control" />
+                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,44 @@
+﻿@model Fitness.Models.ViewModels.Image.Create;
+
+@{
+    ViewData["Title"] = "Bild hochladen";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create" enctype="multipart/form-data" method="post">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="File" class="form-label fw-bold"></label>
+                    <input asp-for="File" type="file" class="form-control" accept="image/*" required />
+                    <span asp-validation-for="File" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="Description" class="form-label fw-bold"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Beschreibe das Bild..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-upload"></i> Speichern
+                    </button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary ms-2">Abbrechen</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
