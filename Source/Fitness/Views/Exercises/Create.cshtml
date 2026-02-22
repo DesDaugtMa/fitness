@@ -1,61 +1,85 @@
-﻿@model Fitness.DataAccess.Models.Exercise
+﻿@model Fitness.Models.ViewModels.Exercises.Create;
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Übung erstellen";
 }
 
-<h1>Create</h1>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 
-<h4>Exercise</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CreatorId" class="control-label"></label>
-                <select asp-for="CreatorId" class ="form-control" asp-items="ViewBag.CreatorId"></select>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Neue Übung anlegen</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Name" class="form-label fw-bold"></label>
+                            <input asp-for="Name" class="form-control" placeholder="z.B. Bankdrücken" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Description" class="form-label fw-bold"></label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Beschreibe die Ausführung der Übung..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="ImageFile" class="form-label fw-bold"></label>
+                            <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
+                            <small class="form-text text-muted">Lade ein aussagekräftiges Bild hoch.</small>
+                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="YouTubeLink" class="form-label fw-bold"></label>
+                            <input asp-for="YouTubeLink" class="form-control" placeholder="https://www.youtube.com/watch?v=..." />
+                            <span asp-validation-for="YouTubeLink" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="SelectedMuscleGroupIds" class="form-label fw-bold"></label>
+                            <select asp-for="SelectedMuscleGroupIds" asp-items="Model.AvailableMuscleGroups" id="muscle-groups-select" class="form-control" multiple>
+                            </select>
+                            <span asp-validation-for="SelectedMuscleGroupIds" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-outline-secondary">Abbrechen</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Übung erstellen
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageId" class="control-label"></label>
-                <select asp-for="ImageId" class ="form-control" asp-items="ViewBag.ImageId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="VideoUrl" class="control-label"></label>
-                <input asp-for="VideoUrl" class="form-control" />
-                <span asp-validation-for="VideoUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsPublic" /> @Html.DisplayNameFor(model => model.IsPublic)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var element = document.getElementById('muscle-groups-select');
+
+            // Choices.js Initialisierung
+            var choices = new Choices(element, {
+                removeItemButton: true, // Ermöglicht das Entfernen einzelner Chips durch ein "X"
+                placeholderValue: 'Muskelgruppen auswählen...',
+                searchPlaceholderValue: 'Nach Muskelgruppen suchen...',
+                noResultsText: 'Keine Muskelgruppe gefunden',
+                itemSelectText: 'Klicken zum Auswählen'
+            });
+        });
+    </script>
 }
