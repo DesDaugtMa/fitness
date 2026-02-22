@@ -9,16 +9,15 @@ namespace Fitness.Models.ViewModels.Exercises
         [Display(Name = "Übungsname")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Eine Beschreibung ist erforderlich.")]
         [Display(Name = "Beschreibung")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Display(Name = "Bild hochladen")]
-        public IFormFile ImageFile { get; set; } // Die eigentliche hochgeladene Datei
+        public IFormFile? ImageFile { get; set; } // Die eigentliche hochgeladene Datei
 
-        [Display(Name = "YouTube-Link (optional)")]
+        [Display(Name = "YouTube-Link")]
         [Url(ErrorMessage = "Bitte gib eine gültige URL ein.")]
-        public string YouTubeLink { get; set; }
+        public string? YouTubeLink { get; set; }
 
         // Speichert die IDs der ausgewählten Muskelgruppen aus dem Formular
         [Display(Name = "Muskelgruppen")]
