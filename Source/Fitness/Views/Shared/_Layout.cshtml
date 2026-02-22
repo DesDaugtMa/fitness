@@ -27,6 +27,9 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <a class="nav-link" asp-controller="Admin" asp-action="Index">Admin</a>
+                            <a class="nav-link" asp-controller="Images" asp-action="Index">Bilder</a>
+                            <a class="nav-link" asp-controller="Exercises" asp-action="Index">Übungen</a>
+                            <a class="nav-link" asp-controller="MuscleGroups" asp-action="Index">Muskelgruppen</a>
                         }
 
                         <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
