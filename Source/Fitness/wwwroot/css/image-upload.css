@@ -11,7 +11,7 @@
 .drop-zone {
     width: 100%;
     height: 280px;
-    border: 2px dashed var(--border);
+    border: 2px dashed lightgrey;
     border-radius: 12px;
     display: flex;
     align-items: center;
