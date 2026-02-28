@@ -57,7 +57,7 @@
         }
 
         .choices__list--multiple .choices__item {
-            font-size: .9rem !important; /* Verhindert iOS-Zoom */
+            font-size: 20px !important; /* Verhindert iOS-Zoom */
             padding: 8px 15px !important;
             margin: 4px 6px 4px 0 !important;
             border-radius: 8px !important;
@@ -92,7 +92,7 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label asp-for="Name" class="form-label fw-bold"></label>
+                            <label asp-for="Name" class="form-label fw-bold"></label><span class="text-danger">*</span>
                             <input asp-for="Name" class="form-control" placeholder="z.B. Bankdrücken" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
@@ -110,17 +110,22 @@
                         </div>
 
                         <div class="form-group mb-4">
-                            <label asp-for="SelectedMuscleGroupIds" class="form-label fw-bold"></label>
+                            <label asp-for="SelectedMuscleGroupIds" class="form-label fw-bold"></label><span class="text-danger">*</span>
                             <select asp-for="SelectedMuscleGroupIds" asp-items="Model.AvailableMuscleGroups" id="muscle-groups-select" class="form-control" multiple>
                             </select>
                             <span asp-validation-for="SelectedMuscleGroupIds" class="text-danger"></span>
                         </div>
 
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a asp-action="Index" class="btn btn-outline-secondary">Abbrechen</a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-save"></i> Übung erstellen
-                            </button>
+                        <div class="row g-3">
+                            <div class="col-6 col-md-4">
+                                <a asp-action="Index" class="btn btn-outline-danger w-100">Abbrechen</a>
+                            </div>
+
+                            <div class="col-6 col-md-8">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    Übung hinzufügen
+                                </button>
+                            </div>
                         </div>
                     </form>
         </div>

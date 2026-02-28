@@ -1,101 +1,106 @@
-﻿@*
-    Parameter:
-    ViewData["InputName"]    - Der Name für den Controller (Standard: ImageFile)
-    ViewData["UploadHeight"] - Höhe (z.B. 250px)
-    ViewData["UploadWidth"]  - Breite (z.B. 100% oder 300px)
-    ViewData["IsOptional"]   - Zeigt "(optional)" an (bool, Standard: false)
+﻿@* 
+    Parameter: 
+    ViewData["InputName"]    - Der Name für den Controller (Standard: ImageFile) 
+    ViewData["UploadHeight"] - Höhe (z.B. 250px) 
+    ViewData["UploadWidth"]  - Breite (z.B. 100% oder 300px) 
+    ViewData["IsOptional"]   - Zeigt "(optional)" an (bool, Standard: false) 
 *@
 
-@{
-    var inputName = ViewData["InputName"] ?? "ImageFile";
-    var height = ViewData["UploadHeight"] ?? "250px";
-    var width = ViewData["UploadWidth"] ?? "100%";
-    var isOptional = ViewData["IsOptional"] != null && (bool)ViewData["IsOptional"];
+@{ 
+    var inputName = ViewData["InputName"] ?? "ImageFile"; 
+    var height = ViewData["UploadHeight"] ?? "250px"; 
+    var width = ViewData["UploadWidth"] ?? "100%"; 
+    var isOptional = ViewData["IsOptional"] != null && (bool)ViewData["IsOptional"]; 
+ 
+    // Eindeutige ID für CSS und JS Präfixe 
+    var uid = "upl" + Guid.NewGuid().ToString("N").Substring(0, 8); 
+} 
 
-    // Eindeutige ID für CSS und JS Präfixe
-    var uid = "upl" + Guid.NewGuid().ToString("N").Substring(0, 8);
-}
+<style> 
+    .@(uid)-wrapper { 
+        width: @width; 
+        max-width: 100%; 
+        margin-bottom: 1rem; 
+    } 
+ 
+    .@(uid)-drop-zone { 
+        width: 100%; 
+        height: @height; 
+        border: 2px dashed #d1d5db; 
+        border-radius: 12px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        background: #f8fafc; 
+        cursor: pointer; 
+        transition: all 0.2s ease; 
+        position: relative; 
+        overflow: hidden; 
+    } 
+ 
+        .@(uid)-drop-zone:hover, .@(uid)-drop-zone.drag-over { 
+            border-color: #4a90e2; 
+            background: #f0f7ff; 
+        } 
+ 
+    .@(uid)-info { 
+        text-align: center; 
+        color: #64748b; 
+        padding: 15px; 
+    } 
+ 
+    .@(uid)-drag-text { 
+        display: none; /* Mobile versteckt */ 
+    } 
+ 
+    @@media (min-width: 768px) { 
+        .@(uid)-drag-text { 
+            display: inline; /* PC sichtbar */ 
+        } 
+    } 
+ 
+    .@(uid)-preview { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+        display: none; 
+    } 
+ 
+    .@(uid)-reset { 
+        margin-top: 10px; 
+        display: none; 
+    } 
+ 
+    .@(uid)-optional-hint { 
+        display: block; 
+        margin-top: 4px; 
+        color: #94a3b8; 
+    } 
+</style> 
 
-<style>
-    .@(uid)-wrapper {
-        width: @width;
-        max-width: 100%;
-        margin-bottom: 1rem;
-    }
+<div class="@(uid)-wrapper"> 
+    <div class="@(uid)-drop-zone" id="dz-@uid"> 
+        <div class="@(uid)-info" id="info-@uid"> 
+            <i class="bi bi-card-image" style="font-size: 2rem; display: block;"></i> 
+            <strong>Bild auswählen</strong> 
+            <span class="@(uid)-drag-text"><br>oder hierher ziehen</span> 
+ 
+            @if (isOptional) 
+            { 
+                <small class="@(uid)-optional-hint">(optional)</small> 
+            } 
+        </div> 
+        <img class="@(uid)-preview" id="prev-@uid"> 
+    </div> 
 
-    .@(uid)-drop-zone {
-        width: 100%;
-        height: @height;
-        border: 2px dashed #d1d5db;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #f8fafc;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        position: relative;
-        overflow: hidden;
-    }
+    <input type="file" name="@inputName" id="file-@uid" accept="image/*" style="display:none;"> 
 
-        .@(uid)-drop-zone:hover, .@(uid)-drop-zone.drag-over {
-            border-color: #4a90e2;
-            background: #f0f7ff;
-        }
+    <button type="button" class="btn btn-sm btn-outline-danger w-100 @(uid)-reset" id="reset-@uid">
+        Bild entfernen
+    </button> 
+</div> 
 
-    .@(uid)-info {
-        text-align: center;
-        color: #64748b;
-        padding: 15px;
-    }
-
-    .@(uid)-drag-text {
-        display: none; /* Mobile versteckt */
-    }
-
-    @@media (min-width: 768px) {
-        .@(uid)-drag-text {
-            display: inline; /* PC sichtbar */
-        }
-    }
-
-    .@(uid)-preview {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: none;
-    }
-
-    .@(uid)-reset {
-        margin-top: 10px;
-        display: none;
-    }
-
-    .@(uid)-optional-hint {
-        display: block;
-        margin-top: 4px;
-        color: #94a3b8;
-    }
-</style>
-
-<div class="@(uid)-wrapper">
-    <div class="@(uid)-drop-zone" id="dz-@uid">
-        <div class="@(uid)-info" id="info-@uid">
-            <i class="bi bi-card-image" style="font-size: 2rem; display: block;"></i>
-            <strong>Bild auswählen</strong>
-            <span class="@(uid)-drag-text"><br>oder hierher ziehen</span>
-
-            @if (isOptional)
-            {
-                <small class="@(uid)-optional-hint">(optional)</small>
-            }
-        </div>
-        <img class="@(uid)-preview" id="prev-@uid">
-    </div>
-
-    <input type="file" name="@inputName" id="file-@uid" accept="image/*" style="display:none;">
-
-    <button type="button" class="btn btn-sm btn-outline-danger @(uid)-reset" id="reset-@uid">
+    <button type="button" class="btn btn-sm btn-outline-danger w-100 @(uid)-reset" id="reset-@uid" style="@(ViewData["TempImagePath"] != null ? "display:inline-block;" : "display:none;")">
         Bild entfernen
     </button>
 </div>
@@ -110,6 +115,10 @@
         const rb = document.getElementById('reset-' + u);
 
         if(!dz) return;
+
+        // Serverseitige Vorschau wird über das src-Attribut und inline styles im HTML gesetzt.
+        // Wir müssen hier nichts zusätzliches per JS initialisieren, um das Risiko von
+        // Encoding-Problemen (Data-URL in JS-String) zu vermeiden.
 
         dz.addEventListener('click', () => fi.click());
 
@@ -148,6 +157,9 @@
                 info.style.display = 'none';
                 rb.style.display = 'inline-block';
                 dz.style.borderStyle = 'solid';
+                // Wenn der Benutzer eine neue Datei auswählt, löschen wir die serverseitige Temp-Referenz
+                const hi = document.getElementById('tmp-' + u);
+                if (hi) hi.value = '';
             };
             reader.readAsDataURL(file);
         }
@@ -160,6 +172,9 @@
             info.style.display = 'block';
             rb.style.display = 'none';
             dz.style.borderStyle = 'dashed';
+            // Entferne auch die serverseitige Temp-Referenz
+            const hi = document.getElementById('tmp-' + u);
+            if (hi) hi.value = '';
         });
     })();
 </script>
