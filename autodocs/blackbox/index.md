@@ -1,6 +1,7 @@
 ---
 type: index
 created: 2025-11-13
+updated: 2026-03-21
 tags: [index, blackbox]
 ---
 
@@ -11,44 +12,42 @@ Diese Dokumentation beschreibt alle externen Schnittstellen und Abhängigkeiten 
 ## 🌐 Öffentliche Schnittstellen
 
 ### REST APIs
-
-_Keine Einträge vorhanden. Verwende die entsprechenden Agents, um Inhalte zu generieren._
+- [[public/fitness-webapp-api]]
 
 ### GraphQL APIs
-
-_Keine Einträge vorhanden. Verwende die entsprechenden Agents, um Inhalte zu generieren._
+_Keine Einträge vorhanden._
 
 ### Messaging
-
-_Keine Einträge vorhanden. Verwende die entsprechenden Agents, um Inhalte zu generieren._
+_Keine Einträge vorhanden._
 
 ## 🔌 Interne Abhängigkeiten
 
 ### Datenbanken
-
-_Keine Einträge vorhanden. Verwende die entsprechenden Agents, um Inhalte zu generieren._
+- [[internal/sql-server-datastore]]
 
 ### Externe Services
-
-_Keine Einträge vorhanden. Verwende die entsprechenden Agents, um Inhalte zu generieren._
+- [[internal/google-oauth-outbound]]
 
 ### Cache-Systeme
-
-_Keine Einträge vorhanden. Verwende die entsprechenden Agents, um Inhalte zu generieren._
+_Keine Einträge vorhanden._
 
 ## 📊 Übersichten
 
-- Öffentliche API-Übersicht: _Noch nicht vorhanden_
-- Öffentliche Verbindungsübersicht: _Noch nicht vorhanden_
-- Öffentliche Datenflussübersicht: _Noch nicht vorhanden_
-- Internes Outbound-Inventar: _Noch nicht vorhanden_
-- Internes Datastore-Inventar: _Noch nicht vorhanden_
-- Internes Abhängigkeits-Inventar: _Noch nicht vorhanden_
+- [[public/connections-overview]]
+- [[public/user-login-dataflow]]
+- [[internal/dependencies-overview]]
+- [[internal/risk-register]]
+- [[internal/redaction-log]]
 
 ## ⚠️ Risiken
 
-- Risikoregister: _Noch nicht vorhanden_
-- Redaktionslog: _Noch nicht vorhanden_
+- [[internal/risk-register]]
+
+## 🧮 Statistik (Coverage)
+
+- Inbound Interfaces: 100% erfasst (Controller-basiert)
+- Outbound Integrations: 100% erfasst (DB, Google OAuth2)
+- Datastore: 100% erfasst (SQL Server)
 
 ---
 
