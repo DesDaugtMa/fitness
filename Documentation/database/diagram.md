@@ -1,13 +1,14 @@
+```mermaid
 erDiagram
     USER {
         int Id PK
         string Email
-        string? PasswordHash
+        string PasswordHash
         string DisplayName
         int RoleId FK
-        int? ProfileImageId FK
-        string? AuthProvider
-        string? ProviderId
+        int ProfileImageId FK
+        string AuthProvider
+        string ProviderId
         bool ShareExercisesEnabled
         datetime CreatedAt
     }
@@ -15,27 +16,27 @@ erDiagram
     ROLE {
         int Id PK
         string Name
-        string? Description
+        string Description
     }
 
     IMAGE {
         int Id PK
-        int? UploaderId FK
-        string? Description
+        int UploaderId FK
+        string Description
         bytes FileData
         long FileSizeBytes
-        string? FileExtension
-        string? MimeType
+        string FileExtension
+        string MimeType
         datetime CreatedAt
     }
 
     EXERCISE {
         int Id PK
-        int? CreatorId FK
+        int CreatorId FK
         string Name
-        string? Description
-        int? ImageId FK
-        string? VideoUrl
+        string Description
+        int ImageId FK
+        string VideoUrl
         bool IsPublic
         datetime CreatedAt
     }
@@ -55,14 +56,14 @@ erDiagram
         int Id PK
         int UserId FK
         string Title
-        string? Description
+        string Description
         datetime CreatedAt
     }
 
     TRAININGDAY {
         int Id PK
         int PlanId FK
-        string? DayName
+        string DayName
         int SortOrder
     }
 
@@ -71,14 +72,14 @@ erDiagram
         int TrainingDayId FK
         int ExerciseId FK
         int SetsCount
-        float? TargetMinWeight
-        float? TargetMaxWeight
-        int? TargetMinReps
-        int? TargetMaxReps
+        float TargetMinWeight
+        float TargetMaxWeight
+        int TargetMinReps
+        int TargetMaxReps
         float PoWeightIncrement
         int PoRepsIncrement
         bool PoActive
-        string? Note
+        string Note
         int SortOrder
     }
 
@@ -87,7 +88,7 @@ erDiagram
         int UserId FK
         int PlanId FK
         datetime StartedAt
-        datetime? CompletedAt
+        datetime CompletedAt
     }
 
     WORKOUTLOG {
@@ -95,8 +96,8 @@ erDiagram
         int SessionId FK
         int PlanExerciseId FK
         int SetNumber
-        float? ActualWeight
-        int? ActualReps
+        float ActualWeight
+        int ActualReps
         bool WasSuccessful
         datetime CreatedAt
     }
@@ -110,13 +111,13 @@ erDiagram
     }
 
     REGISTRATIONTOKEN {
-        string Token PK/Unique
-        int? CreatedByUserId FK
-        int? UsedByUserId FK
+        string Token PK
+        int CreatedByUserId FK
+        int UsedByUserId FK
         bool IsActive
         datetime CreatedAt
-        datetime? ExpiresAt
-        string? Description
+        datetime ExpiresAt
+        string Description
     }
 
     %% Relationships
@@ -147,3 +148,4 @@ erDiagram
 
     USER ||--o{ REGISTRATIONTOKEN : "created tokens"
     USER ||--o{ REGISTRATIONTOKEN : "used tokens"
+```
