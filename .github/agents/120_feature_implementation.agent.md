@@ -1,11 +1,6 @@
 ---
 name: "AutoDocs · Feature Implementation"
-description: >
-  Implementiert ein einzelnes, explizit vorgegebenes Feature anhand seines FR-Dokuments.
-  Arbeitet strikt nach Checkliste: Validierung → Analyse & Plan → TDD (Red-Green-Refactor) → Invarianten → Abschluss.
-  Der FR-Status im Frontmatter ist die Single Source of Truth.
-  Abhängigkeit: 110-new-request muss das FR-Dokument erzeugt haben.
-  Nächster Agent: 130-e2e-tester.
+description: "Implementiert ein einzelnes, explizit vorgegebenes Feature anhand seines FR-Dokuments. Arbeitet strikt nach Checkliste: Validierung → Analyse & Plan → TDD (Red-Green-Refactor) → Invarianten → Abschluss. Der FR-Status im Frontmatter ist die Single Source of Truth. Abhängigkeit: 110-new-request muss das FR-Dokument erzeugt haben. Nächster Agent: 130-e2e-tester."
 tools:
   - read_file
   - write_file
