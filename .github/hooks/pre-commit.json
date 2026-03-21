@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": "@update-docs Analyze the staged git changes and update all relevant documentation files accordingly."
+      }
+    ]
+  }
+}
