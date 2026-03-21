@@ -70,6 +70,35 @@ tags: [tag1, tag2, ...]
 
 ---
 
+## Status
+
+✅ **All 9 required views completed (2026-03-21):**
+- ✅ context_view.md (C4 Context, system boundaries)
+- ✅ building_block_view.md (C4 L2/L3, layers, components)
+- ✅ runtime_view.md (5 scenarios, sequence diagrams)
+- ✅ deployment_view.md (infrastructure, HA, backup strategy)
+- ✅ quality_goals.md (5 goals, stakeholder perspectives)
+- ✅ quality_scenarios.md (8 testable scenarios)
+- ✅ constraints.md (12 constraints, impact analysis)
+- ✅ architecture_risks.md (6 risks, mitigation roadmap)
+- ✅ architecture_mapping.md (code ↔ docs, bidirectional)
+- ✅ index.md (comprehensive navigation)
+
+## Coverage Summary
+
+| Dimension | Status | Evidence |
+|-----------|--------|----------|
+| Context Clarity | ✅ Complete | C4 context diagram, system boundaries defined |
+| Building Blocks | ✅ Complete | 7 controllers, 6 models, 3 layers documented |
+| Runtime Behavior | ✅ Complete | 5 scenarios, 5 sequence diagrams |
+| Quality Goals | ✅ Complete | 5 goals, 8 scenarios, priority matrix |
+| Decision Docs | ⚠️ Partial | 2 ADRs exist; recommend 5+ more |
+| Risk Analysis | ✅ Complete | 6 risks identified, mitigation roadmap |
+| Code Mapping | ✅ Complete | All major components mapped to code |
+| Test Coverage | ❌ CRITICAL GAP | 0 automated tests; all manual QA |
+
+**Next Agent: 50-auditor** (validation against _meta rules, compliance report)
+
 ## Related
 
 - [[index]] – Architektur-Übersicht
