@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-03-21T00:00:00Z",
+  "documents": [
+    {
+      "path": "features/2026-03-21-user-management.md",
+      "title": "User Management",
+      "type": "feature",
+      "tags": ["#feature", "#auth"],
+      "created": "2026-03-21"
+    },
+    {
+      "path": "features/2026-03-21-workout-tracking.md",
+      "title": "Workout Tracking",
+      "type": "feature",
+      "tags": ["#feature", "#workout"],
+      "created": "2026-03-21"
+    },
+    {
+      "path": "adrs/adr-001-use-entity-framework.md",
+      "title": "Use Entity Framework for Data Access",
+      "type": "adr",
+      "tags": ["#adr", "#data"],
+      "created": "2026-03-21"
+    }
+  ],
+  "link_graph": {},
+  "tag_index": {}
+}
