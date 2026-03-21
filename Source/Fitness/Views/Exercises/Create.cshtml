@@ -49,29 +49,42 @@
             background-size: 10px;
         }
 
-    /* --- Mobile-Optimierung: Größere Items für Touch --- */
+    /* --- Mobile-Optimierung: Fingerfreundlich, aber nicht zu groß --- */
     @@media (max-width: 768px) {
-        .choices__inner {
-            padding: 8px 10px !important;
-            min-height: 52px !important;
+        /* Verhindere iOS-Auto-Zoom beim Fokus auf kleine Eingabefelder */
+        body {
+            -webkit-text-size-adjust: 100%;
         }
 
+        .choices__inner {
+            padding: 8px 10px !important;
+            min-height: 48px !important;
+        }
+
+        /* Etwas größere, aber proportionale Tags auf Mobile - nicht 20px (zu groß auf iPhone)
+           0.95rem sorgt für gute Lesbarkeit ohne übergroße Darstellung */
         .choices__list--multiple .choices__item {
-            font-size: 20px !important; /* Verhindert iOS-Zoom */
-            padding: 8px 15px !important;
+            font-size: 0.95rem !important;
+            padding: 6px 10px !important;
             margin: 4px 6px 4px 0 !important;
             border-radius: 8px !important;
         }
 
             .choices__list--multiple .choices__item .choices__button {
-                width: 32px !important;
+                width: 28px !important;
                 height: 100%;
-                background-size: 14px;
+                background-size: 12px;
             }
 
         .choices__list--dropdown .choices__item {
-            padding: 12px 15px !important;
+            padding: 10px 12px !important;
+            font-size: 15px !important;
+        }
+
+        /* Vermeide automatisches Zooming auf iOS indem wir die Form-Control-Größe auf >=16px halten */
+        input.form-control, textarea.form-control, select.form-control {
             font-size: 16px !important;
+            -webkit-text-size-adjust: 100%;
         }
     }
 </style>

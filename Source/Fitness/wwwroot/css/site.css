@@ -21,6 +21,18 @@ body {
   margin-bottom: 60px;
 }
 
+/* Prevent iOS Safari from auto-resizing text and inputs */
+html, body {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Ensure form controls are large enough on mobile to avoid Safari zoom when focusing */
+@media (max-width: 480px) {
+  input.form-control, textarea.form-control, select.form-control, button.btn {
+    font-size: 16px;
+  }
+}
+
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
