@@ -18,17 +18,23 @@ tags: [test, coverage, metrics, quality]
 | **Integration Tests** | 0% | 60% | 🔴 |
 | **E2E Tests** | - | Critical Flows | 🔴 |
 
-_Letzte Aktualisierung: 2025-01-11_
+_Last Updated: 2026-03-22_
+
+**Note:** Test documentation created for all major feature areas. Implementation pending.
 
 ---
 
 ## Coverage by Area
 
-| Area | Lines | Branches | Functions | Files | Status |
-|------|-------|----------|-----------|-------|--------|
-| **Total** | 0% | 0% | 0% | 0/0 | 🔴 |
+| Area | Lines | Branches | Functions | Files | Test Docs | Status |
+|------|-------|----------|-----------|-------|-----------|--------|
+| **User Management** | 0% | 0% | 0% | 0/N | ✅ [[../tests/unit/test-user-management]] | 🔴 No tests |
+| **Workout Tracking** | 0% | 0% | 0% | 0/N | ✅ [[../tests/unit/test-workout-tracking]] | 🔴 No tests |
+| **Admin Features** | 0% | 0% | 0% | 0/N | ✅ [[../tests/unit/test-admin]] | 🔴 No tests |
+| **Image Management** | 0% | 0% | 0% | 0/N | ✅ [[../tests/unit/test-image-management]] | 🔴 No tests |
+| **Total** | 0% | 0% | 0% | 0/0 | — | 🔴 |
 
-_Keine Tests vorhanden_
+_No automated tests running yet. Test infrastructure pending._
 
 ---
 

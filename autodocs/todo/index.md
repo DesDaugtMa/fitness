@@ -7,22 +7,22 @@ tags: [index, todo, backlog, prioritized]
 
 # 📋 TODOs & Backlog (Konsolidiert)
 
-**Priorisierte TODO-Liste aus Audit Agent 50 (Auditor) & vorherigen Agenten.**
+**Priorisierte TODO-Liste aus Audit Agent 50 (Auditor), Updater Agent 100, & vorherigen Agenten.**
 
 ---
 
 ## Executive Summary
 
-- **Total TODOs:** 8
-- **Open:** 8
+- **Total TODOs:** 12
+- **Open:** 12
 - **In Progress:** 0
 - **Completed:** 0
 - **Blocked:** 1 (waiting for test infrastructure)
 
-**Gesamtaufwand:** ~170 Stunden  
-**Geschätzter Wert:** €92.7k (Time savings + Risk reduction + GDPR compliance)
+**Gesamtaufwand:** ~250 Stunden  
+**Geschätzter Wert:** €125k+ (Time savings + Risk reduction + GDPR compliance + Test coverage)
 
-**Critical Path:** [[#todo-create-unit-test-infrastructure]] → [[#todo-create-test-documentation]]
+**Critical Path:** [[#todo-create-unit-test-infrastructure]] → [[todo-create-user-management-tests]] → [[todo-create-workout-tracking-tests]] → [[todo-create-admin-tests]] → [[todo-create-image-management-tests]]
 
 ---
 
@@ -32,7 +32,7 @@ tags: [index, todo, backlog, prioritized]
 
 ### 1. [[todo-create-unit-test-infrastructure|TODO: Create Unit Test Infrastructure]]
 - **Priority Score:** 15.5 | **Effort:** 80h | **Impact:** 5/5 | **Status:** OPEN
-- **Blocker für:** [[todo-create-test-documentation]]
+- **Blocker für:** All test implementation TODOs
 - **Business Value:** €20k/year (time savings) + risk mitigation
 - **First Command:** `dotnet new xunit -n Fitness.Tests`
 
@@ -41,16 +41,23 @@ tags: [index, todo, backlog, prioritized]
 - **Urgency:** 5/5 (1-week deadline)
 - **Business Value:** €2k (prevent DDoS breach)
 
-### 3. [[todo-oauth2-retry-policy|TODO: Implement OAuth2 Retry Policy]]
+### 3. [[todo-create-user-management-tests|TODO: Create User Management Tests]]
+- **Priority Score:** 14 | **Effort:** 40h | **Impact:** 5/5 | **Status:** OPEN
+- **Related Feature:** [[../features/2026-03-21-user-management]]
+- **Test Duration:** Unit (2h) + Integration (3h) + E2E (1h)
+- **Business Value:** €10k (critical functionality coverage)
+- **Blocker:** [[todo-create-unit-test-infrastructure]]
+
+### 4. [[todo-oauth2-retry-policy|TODO: Implement OAuth2 Retry Policy]]
 - **Priority Score:** 13 | **Effort:** 8h | **Impact:** 4/5 | **Status:** OPEN
 - **Business Value:** €3.2k/year (fewer support tickets)
 
-### 4. [[todo-enable-pii-encryption-tde|TODO: Enable PII Data Encryption (TDE)]]
+### 5. [[todo-enable-pii-encryption-tde|TODO: Enable PII Data Encryption (TDE)]]
 - **Priority Score:** 15.5 | **Effort:** 2h | **Impact:** 5/5 | **Status:** OPEN
 - **Quick Win:** Only 2 hours! GDPR compliance
 - **Business Value:** €50k (prevent GDPR fine)
 
-### 5. [[todo-create-missing-architecture-adrs|TODO: Create Missing Architecture ADRs]]
+### 6. [[todo-create-missing-architecture-adrs|TODO: Create Missing Architecture ADRs]]
 - **Priority Score:** 11 | **Effort:** 24h | **Impact:** 4/5 | **Status:** OPEN
 - **Creates:** ADR-002 (Testing), ADR-003 (Rate Limiting), ADR-004 (Encryption), ADR-005 (HA)
 - **Business Value:** €5k (onboarding efficiency)
@@ -59,21 +66,43 @@ tags: [index, todo, backlog, prioritized]
 
 ## 🟠 MEDIUM PRIORITY TODOs (Score 8-12)
 
-### 6. [[todo-plan-sql-server-ha-setup|TODO: Plan SQL Server High Availability Setup]]
+### 7. [[todo-create-workout-tracking-tests|TODO: Create Workout Tracking Tests]]
+- **Priority Score:** 12 | **Effort:** 40h | **Impact:** 5/5 | **Status:** OPEN
+- **Related Feature:** [[../features/2026-03-21-workout-tracking]]
+- **Depends:** [[todo-create-unit-test-infrastructure]]
+- **Business Value:** €10k (core feature coverage)
+
+### 8. [[todo-plan-sql-server-ha-setup|TODO: Plan SQL Server High Availability Setup]]
 - **Priority Score:** 9 | **Effort:** 24h (planning) | **Impact:** 4/5 | **Status:** OPEN
 - **Timeline:** Q3 2026 (post-launch)
 - **Business Value:** €10k (prevent downtime)
 
-### 7. [[todo-create-test-documentation|TODO: Create Test Documentation Stubs]]
-- **Priority Score:** 8 | **Effort:** 16h | **Impact:** 3/5 | **Status:** 🔴 BLOCKED
-- **Blocked By:** [[todo-create-unit-test-infrastructure]]
+### 9. [[todo-create-admin-tests|TODO: Create Admin Tests]]
+- **Priority Score:** 11 | **Effort:** 24h | **Impact:** 4/5 | **Status:** OPEN
+- **Related Feature:** [[../features/2026-03-21-admin-features]]
+- **Depends:** [[todo-create-unit-test-infrastructure]]
+- **Business Value:** €6k (security/access control coverage)
+
+### 10. [[todo-create-test-documentation|TODO: Create Test Documentation Stubs]]
+- **Priority Score:** 8 | **Effort:** 4h | **Impact:** 3/5 | **Status:** ✅ COMPLETE
+- **Completed By:** Updater Agent (all test docs created)
 - **Business Value:** €2k (dev efficiency)
 
 ---
 
-## 🟢 LOW PRIORITY TODOs (Score <8)
+## 🟢 MEDIUM-LOW PRIORITY TODOs (Score 6-7)
 
-### 8. [[todo-fix-tag-format-inconsistencies|TODO: Fix Tag Format Inconsistencies]]
+### 11. [[todo-create-image-management-tests|TODO: Create Image Management Tests]]
+- **Priority Score:** 7 | **Effort:** 20h | **Impact:** 3/5 | **Status:** OPEN
+- **Related Feature:** [[../features/2026-03-22-image-management]]
+- **Depends:** [[todo-create-unit-test-infrastructure]]
+- **Business Value:** €4k (media handling coverage)
+
+---
+
+## 🟢 LOW PRIORITY TODOs (Score <6)
+
+### 12. [[todo-fix-tag-format-inconsistencies|TODO: Fix Tag Format Inconsistencies]]
 - **Priority Score:** 6.5 | **Effort:** 0.5h | **Impact:** 2/5 | **Status:** OPEN
 - **Quick Win:** 30 minutes! No blockers.
 - **Business Value:** €0.5k (automation wins)
@@ -84,10 +113,10 @@ tags: [index, todo, backlog, prioritized]
 
 | Priority | Count | Hours | Value | % |
 |----------|-------|-------|-------|---|
-| 🔴 HIGH | 5 | 120 | €92k | 71% |
-| 🟠 MEDIUM | 2 | 40 | — | 24% |
-| 🟢 LOW | 1 | 0.5 | — | <1% |
-| **TOTAL** | **8** | **160.5** | **€92.7k** | **100%** |
+| 🔴 HIGH | 6 | 162 | €105k | 69% |
+| 🟠 MEDIUM | 4 | 92 | €26k | 22% |
+| 🟢 LOW | 2 | 0.5 | €0.5k | <1% |
+| **TOTAL** | **12** | **254.5** | **€131.5k** | **100%** |
 
 ---
 

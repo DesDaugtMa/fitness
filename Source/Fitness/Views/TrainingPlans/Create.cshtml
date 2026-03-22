@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "Trainingsplan erstellen";
+}
+
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" />
+    <link href="~/css/editor.css" rel="stylesheet" />
+}
+
+<partial name="_EditorForm" />
+
+@section Scripts {
+    <!-- Choices.js -->
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <!-- Sortable.js -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    
+    <script>
+        // Inject server-side data securely
+        window.ExerciseData = @Html.Raw(ViewBag.ExercisesJson);
+    </script>
+    <script src="~/js/editor.js"></script>
+}

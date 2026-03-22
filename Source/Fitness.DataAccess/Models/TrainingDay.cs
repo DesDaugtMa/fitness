@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -15,6 +15,8 @@ namespace Fitness.DataAccess.Models
         public TrainingPlan Plan { get; set; } = null!;
 
         public string? DayName { get; set; }
+
+        public bool IsRestDay { get; set; } = false;
 
         [Required]
         public int SortOrder { get; set; }

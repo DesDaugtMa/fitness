@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -20,6 +20,9 @@ namespace Fitness.DataAccess.Models
 
         [Required]
         public int SetsCount { get; set; } = 3;
+
+        [Required]
+        public int RepsCount { get; set; } = 10;
 
         public float? TargetMinWeight { get; set; }
         public float? TargetMaxWeight { get; set; }

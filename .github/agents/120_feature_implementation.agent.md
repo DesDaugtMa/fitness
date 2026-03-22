@@ -1,17 +1,45 @@
 ---
 name: "AutoDocs · Feature Implementation"
-description: >
-  Implementiert ein einzelnes, explizit vorgegebenes Feature anhand seines FR-Dokuments.
-  Arbeitet strikt nach Checkliste: Validierung → Analyse & Plan → TDD (Red-Green-Refactor) → Invarianten → Abschluss.
-  Der FR-Status im Frontmatter ist die Single Source of Truth.
-  Abhängigkeit: 110-new-request muss das FR-Dokument erzeugt haben.
-  Nächster Agent: 130-e2e-tester.
+description: "Implementiert ein einzelnes, explizit vorgegebenes Feature anhand seines FR-Dokuments. Arbeitet strikt nach Checkliste: Validierung → Analyse & Plan → TDD (Red-Green-Refactor) → Invarianten → Abschluss. Der FR-Status im Frontmatter ist die Single Source of Truth. Abhängigkeit: 110-new-request muss das FR-Dokument erzeugt haben. Nächster Agent: 130-e2e-tester."
 tools:
-  - read_file
-  - write_file
-  - list_directory
-  - search_files
-  - run_terminal_command
+ - vscode/extensions
+ - vscode/askQuestions
+ - vscode/getProjectSetupInfo
+ - vscode/installExtension
+ - vscode/memory
+ - vscode/newWorkspace
+ - vscode/runCommand
+ - vscode/vscodeAPI
+ - execute/getTerminalOutput
+ - execute/awaitTerminal
+ - execute/killTerminal
+ - execute/createAndRunTask
+ - execute/runInTerminal
+ - execute/runNotebookCell
+ - execute/testFailure
+ - read/terminalSelection
+ - read/terminalLastCommand
+ - read/getNotebookSummary
+ - read/problems
+ - read/readFile
+ - agent/runSubagent
+ - browser/openBrowserPage
+ - edit/createDirectory
+ - edit/createFile
+ - edit/createJupyterNotebook
+ - edit/editFiles
+ - edit/editNotebook
+ - edit/rename
+ - search/changes
+ - search/codebase
+ - search/fileSearch
+ - search/listDirectory
+ - search/searchResults
+ - search/textSearch
+ - search/usages
+ - web/fetch
+ - web/githubRepo
+ - todo
 ---
 
 # AutoDocs Agent · Feature Implementation

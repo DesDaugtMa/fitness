@@ -7,11 +7,44 @@ description: >
   setzt Verlinkungen und logt alle Änderungen unter /autodocs/updater/.
   Abhängigkeiten: Setup-Agents (10–60) müssen bereits gelaufen sein.
 tools:
-  - read_file
-  - write_file
-  - list_directory
-  - search_files
-  - run_terminal_command
+ - vscode/extensions
+ - vscode/askQuestions
+ - vscode/getProjectSetupInfo
+ - vscode/installExtension
+ - vscode/memory
+ - vscode/newWorkspace
+ - vscode/runCommand
+ - vscode/vscodeAPI
+ - execute/getTerminalOutput
+ - execute/awaitTerminal
+ - execute/killTerminal
+ - execute/createAndRunTask
+ - execute/runInTerminal
+ - execute/runNotebookCell
+ - execute/testFailure
+ - read/terminalSelection
+ - read/terminalLastCommand
+ - read/getNotebookSummary
+ - read/problems
+ - read/readFile
+ - agent/runSubagent
+ - browser/openBrowserPage
+ - edit/createDirectory
+ - edit/createFile
+ - edit/createJupyterNotebook
+ - edit/editFiles
+ - edit/editNotebook
+ - edit/rename
+ - search/changes
+ - search/codebase
+ - search/fileSearch
+ - search/listDirectory
+ - search/searchResults
+ - search/textSearch
+ - search/usages
+ - web/fetch
+ - web/githubRepo
+ - todo
 ---
 
 # AutoDocs Agent · Updater

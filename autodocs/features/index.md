@@ -19,21 +19,27 @@ Dieser Bereich dokumentiert alle **implementierten Änderungen** am System:
 
 Jede Feature-Doku ist verknüpft mit Tests, ADRs, und Commits.
 
-**Aktueller Stand:** 0 Features dokumentiert
+**Aktueller Stand:** 4 Core Features dokumentiert
 
 ---
 
 ## Alle Features (chronologisch)
 
-_Noch keine Features dokumentiert._
+1. **[[2026-03-21-user-management]]** – User authentication, registration, OAuth2, RBAC
+2. **[[2026-03-21-workout-tracking]]** – Exercise library, training plans, workout sessions
+3. **[[2026-03-21-admin-features]]** – Admin dashboard, registration token management
+4. **[[2026-03-22-image-management]]** – Image upload, storage, and retrieval
 
 ---
 
 ## Features nach Status
 
-### 🟢 Active (0)
+### 🟢 Active (4)
 
-_Noch keine aktiven Features._
+- [[2026-03-21-user-management]] – User Management System
+- [[2026-03-21-workout-tracking]] – Workout Tracking System
+- [[2026-03-21-admin-features]] – Admin Features & Management
+- [[2026-03-22-image-management]] – Image Management & Storage
 
 ---
 
