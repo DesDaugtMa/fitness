@@ -70,6 +70,94 @@ select.form-control,
     z-index: 10; /* Verhindert, dass das offene Choices-Dropdown hinter nachfolgenden Elementen verschwindet */
 }
 
+/* Day Cards */
+.day-card {
+    border: 1px solid var(--border-color) !important;
+}
+
+.day-name-wrapper {
+    background-color: var(--empty-bg);
+    border-radius: 8px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.day-name-wrapper:hover {
+    background-color: var(--input-bg);
+    box-shadow: inset 0 0 0 1px var(--input-border);
+}
+.day-name-wrapper:focus-within {
+    background-color: var(--input-bg);
+    box-shadow: inset 0 0 0 2px var(--primary-color) !important;
+}
+.day-name-wrapper:focus-within .edit-icon {
+    opacity: 1 !important;
+    color: var(--primary-color) !important;
+}
+
+.day-name-input {
+    color: var(--text-color) !important;
+    font-size: 1.25rem !important;
+    cursor: pointer;
+}
+.day-name-input:focus {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    cursor: text;
+}
+.day-name-input::placeholder {
+    color: #adb5bd !important;
+}
+
+/* Day Tabs Bar (Horizontal scrolling on mobile, vertical stack on desktop) */
+#dayTabsContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+#dayTabsContainer::-webkit-scrollbar {
+    height: 6px;
+}
+#dayTabsContainer::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 10px;
+}
+#dayTabsContainer .nav-link {
+    white-space: nowrap;
+    text-align: left;
+    color: var(--text-color);
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+#dayTabsContainer .nav-link.active {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-color: var(--primary-color) !important;
+}
+
+/* Sidebar behavior on large screens */
+@media (min-width: 992px) {
+    #dayTabsContainer {
+        overflow-x: visible;
+    }
+    .sticky-sidebar {
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+        scrollbar-width: none;
+    }
+    .sticky-sidebar::-webkit-scrollbar {
+        display: none;
+    }
+    #dayTabsContainer .nav-link {
+        width: 100%;
+        padding: 0.85rem 1rem;
+    }
+}
+
 /* Inputs & Form Controls */
 .form-control {
     background-color: var(--input-bg);
@@ -229,4 +317,13 @@ select.form-control,
     padding-left: 0.5rem;
     padding-top: 0.2rem;
     cursor: pointer;
+}
+
+/* Save bottom bar Backgrounds mapping */
+.save-bottom-bar {
+    background-color: var(--card-bg);
+    transition: background-color 0.3s ease;
+}
+[data-theme="dark"] .save-bottom-bar {
+    background-color: var(--card-bg);
 }
