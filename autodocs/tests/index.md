@@ -22,7 +22,7 @@ Hier dokumentieren wir **wie wir Qualität sichern**:
 
 - **Total Tests:** 0
 - **Coverage:** 0%
-- **Status:** 🔴 No tests yet
+- **Status:** 🔴 Test documentation created (implementation pending)
 
 ---
 
@@ -31,17 +31,29 @@ Hier dokumentieren wir **wie wir Qualität sichern**:
 ### [[unit/index|Unit-Tests]]
 Isolierte Tests für einzelne Funktionen/Klassen
 - **Ziel:** ≥80% Coverage
-- **Aktuell:** 0 Tests
+- **Aktuell:** 0 Tests (Documentation: 4 docs created)
+- Test docs: [[unit/test-user-management|User Management]], [[unit/test-workout-tracking|Workout Tracking]], [[unit/test-admin|Admin]], [[unit/test-image-management|Image Management]]
 
 ### [[e2e/index|E2E-Tests]]
 End-to-End Tests für User Flows
 - **Ziel:** Alle kritischen Flows
-- **Aktuell:** 0 Tests
+- **Aktuell:** 0 Tests (To be created)
 
 ### [[coverage|Coverage-Report]]
 Detaillierte Coverage-Metriken
 - **Ziel:** ≥80% Overall
 - **Aktuell:** 0%
+
+---
+
+## Test Documentation Overview
+
+| Area | Status | Feature Link |
+|------|--------|--------------|
+| User Management | 📝 Documented | [[../features/2026-03-21-user-management]] |
+| Workout Tracking | 📝 Documented | [[../features/2026-03-21-workout-tracking]] |
+| Admin Features | 📝 Documented | [[../features/2026-03-21-admin-features]] |
+| Image Management | 📝 Documented | [[../features/2026-03-22-image-management]] |
 
 ---
 

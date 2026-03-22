@@ -1,0 +1,144 @@
+@model Fitness.DataAccess.Models.TrainingPlan
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container-xl py-4 pb-5 mb-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-12 col-lg-4 col-xl-3 mb-4">
+            <div class="sticky-sidebar" style="position: sticky; top: 20px;">
+                <div class="card shadow-sm mb-4 border-0">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h4 class="fw-bold mb-0">@Model.Title</h4>
+                            <a href="/TrainingPlans/Edit/@Model.Id" class="btn btn-sm btn-outline-primary ms-3" title="Bearbeiten">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </div>
+                        @if (!string.IsNullOrWhiteSpace(Model.Description))
+                        {
+                            <p class="text-muted mb-0 mt-2">@Model.Description</p>
+                        }
+                    </div>
+                </div>
+
+                <h6 class="fw-bold d-none d-lg-block mb-3 ms-2">Trainingstage</h6>
+                <div class="nav nav-pills flex-nowrap flex-lg-column gap-2 mb-4 pb-2 pb-lg-0" role="tablist" style="overflow-x: auto;">
+                    @{ int tabIndex = 0; }
+                    @foreach (var day in Model.TrainingDays.OrderBy(d => d.SortOrder))
+                    {
+                        var isActive = tabIndex == 0 ? "active" : "";
+                        var icon = day.IsRestDay ? "bi-cup-hot" : "bi-calendar-event";
+                        <button class="nav-link @isActive text-start fw-bold py-2 px-3 border border-light" 
+                                id="tab-btn-@day.Id" data-bs-toggle="pill" data-bs-target="#tab-@day.Id" type="button" role="tab" aria-controls="tab-@day.Id" aria-selected="@(isActive == "active" ? "true" : "false")">
+                            <i class="bi @icon me-2"></i>
+                            @day.DayName
+                        </button>
+                        tabIndex++;
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content (Days) -->
+        <div class="col-12 col-lg-8 col-xl-9">
+            <div class="tab-content">
+                @{ int paneIndex = 0; }
+                @foreach (var day in Model.TrainingDays.OrderBy(d => d.SortOrder))
+                {
+                    var showActive = paneIndex == 0 ? "show active" : "";
+                    <div class="tab-pane fade @showActive" id="tab-@day.Id" role="tabpanel" aria-labelledby="tab-btn-@day.Id">
+                        
+                        <div class="card mb-4 shadow-sm border-0">
+                            <div class="card-header bg-transparent border-bottom pt-3 pb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 class="mb-0 fw-bold">@day.DayName</h4>
+                                    @if(day.IsRestDay)
+                                    {
+                                        <span class="badge bg-secondary px-3 py-2 rounded-pill"><i class="bi bi-cup-hot me-1"></i> Restday</span>
+                                    }
+                                </div>
+                            </div>
+                            
+                            <div class="card-body px-0 pt-0 pb-3">
+                                @if (day.IsRestDay || !day.PlanExercises.Any())
+                                {
+                                    <div class="text-center p-5 mx-3 mt-4 rounded-3 text-muted" style="background-color: #f8f9fa;">
+                                        <i class="bi bi-card-list fs-1 mb-2 d-block text-secondary opacity-25"></i>
+                                        <p class="mb-0">Keine Übungen an diesem Tag.</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="list-group list-group-flush">
+                                        @{ int exIndex = 1; }
+                                        @foreach(var pe in day.PlanExercises.OrderBy(x => x.SortOrder))
+                                        {
+                                            var ex = pe.Exercise;
+                                            var imgUrl = ex.ImageId != null ? $"/Images/GetImage/{ex.ImageId}" : "https://placehold.co/100x100/3b82f6/white?text=NoImg";
+                                            
+                                            <div class="list-group-item px-4 py-4 @(exIndex < day.PlanExercises.Count ? "border-bottom" : "border-bottom-0")">
+                                                <div class="d-flex align-items-center mb-3">
+                                                    <span class="fs-5 fw-bold text-muted me-3" style="min-width: 25px;">@exIndex.</span>
+                                                    <img src="@imgUrl" alt="@ex.Name" class="rounded shadow-sm" style="width: 70px; height: 70px; object-fit: cover;">
+                                                    <div class="ms-3 flex-grow-1">
+                                                        <h5 class="mb-1 fw-bold">@ex.Name</h5>
+                                                        <div class="mb-1">
+                                                            @foreach(var m in ex.ExerciseMuscleGroups)
+                                                            {
+                                                                <span class="badge bg-secondary me-1" style="font-size: 0.8rem;">@m.MuscleGroup.Name</span>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row mt-2 ps-md-5 ms-md-3">
+                                                    <!-- Sätze & Wdh -->
+                                                    <div class="col-6 col-md-3 mb-2">
+                                                        <div class="d-flex align-items-center p-2 rounded bg-light border h-100">
+                                                            <div class="ms-2">
+                                                                <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.7rem;">Sätze</small>
+                                                                <span class="fw-bold fs-5">@pe.SetsCount</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 col-md-3 mb-2">
+                                                        <div class="d-flex align-items-center p-2 rounded bg-light border h-100">
+                                                            <div class="ms-2">
+                                                                <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.7rem;">Wdh</small>
+                                                                <span class="fw-bold fs-5">@pe.RepsCount</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    @if(pe.PoActive)
+                                                    {
+                                                        <div class="col-12 col-md-6 mb-2">
+                                                            <div class="p-2 py-3 h-100 rounded border" style="background-color: rgba(var(--bs-primary-rgb), 0.05); border-color: rgba(var(--bs-primary-rgb), 0.2) !important;">
+                                                                <div class="d-flex align-items-center mb-1">
+                                                                    <i class="bi bi-graph-up-arrow text-primary me-2"></i>
+                                                                    <span class="fw-bold text-primary" style="font-size: 0.85rem;">Progressive Overload</span>
+                                                                </div>
+                                                                <div class="d-flex text-muted flex-column flex-sm-row justify-content-between mt-2" style="font-size: 0.8rem;">
+                                                                    <span class="mb-1 mb-sm-0">Ziel: <strong class="text-dark">@pe.TargetMinReps - @pe.TargetMaxReps Wdh</strong></span>
+                                                                    <span>Nach Ziel: <strong class="text-dark">+@pe.PoWeightIncrement kg</strong> / <strong class="text-dark">-@pe.PoRepsIncrement Wdh</strong></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                            exIndex++;
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    paneIndex++;
+                }
+            </div>
+        </div>
+    </div>
+</div>

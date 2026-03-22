@@ -50,13 +50,14 @@ Dieses Mapping ist **maschinenlesbar** und wird von zukünftigen Agents für Cod
 
 | Controller | Responsibility | Code Path | Features | Tests | ADRs |
 |---|---|---|---|---|---|
-| **AccountController** | User Auth (Register, Login, Logout, OAuth) | `Controllers/AccountController.cs` | [[../../features/2026-03-21-user-management]] | [[../../tests/test-auth]] | — |
-| **ExercisesController** | Exercise CRUD, Exercise List | `Controllers/ExercisesController.cs` | [[../../features/2026-03-21-workout-tracking]] | [[../../tests/test-exercises]] | [[../../adrs/adr-001-use-entity-framework]] |
-| **HomeController** | Dashboard, Error Page, Privacy | `Controllers/HomeController.cs` | — | [[../../tests/test-home]] | — |
-| **AdminController** | Admin Functions (if any) | `Controllers/AdminController.cs` | — | — | — |
-| **MuscleGroupsController** | Muscle Group CRUD | `Controllers/MuscleGroupsController.cs` | — | — | — |
-| **ImagesController** | Image Upload/Management | `Controllers/ImagesController.cs` | — | — | — |
-| **RegistrationTokensController** | Token-based Registration | `Controllers/RegistrationTokensController.cs` | [[../../features/2026-03-21-user-management]] | — | — |
+| **AccountController** | User Auth (Register, Login, Logout, OAuth) | `Controllers/AccountController.cs` | [[../../features/2026-03-21-user-management]] | [[../../tests/unit/test-user-management]] | — |
+| **ExercisesController** | Exercise CRUD, Exercise List | `Controllers/ExercisesController.cs` | [[../../features/2026-03-21-workout-tracking]] | [[../../tests/unit/test-workout-tracking]] | [[../../adrs/adr-001-use-entity-framework]] |
+| **AdminController** | Admin Dashboard (Token Management) | `Controllers/AdminController.cs` | [[../../features/2026-03-21-admin-features]] | [[../../tests/unit/test-admin]] | — |
+| **ImagesController** | Image Upload/Management | `Controllers/ImagesController.cs` | [[../../features/2026-03-22-image-management]] | [[../../tests/unit/test-image-management]] | [[../../adrs/adr-001-use-entity-framework]] |
+| **MuscleGroupsController** | Muscle Group CRUD | `Controllers/MuscleGroupsController.cs` | [[../../features/2026-03-21-workout-tracking]] | [[../../tests/unit/test-workout-tracking]] | — |
+| **TrainingPlansController** | Training Plan Management | `Controllers/TrainingPlansController.cs` | [[../../features/2026-03-21-workout-tracking]] | [[../../tests/unit/test-workout-tracking]] | — |
+| **HomeController** | Dashboard, Error Page, Privacy | `Controllers/HomeController.cs` | — | — | — |
+| **RegistrationTokensController** | Token-based Registration Mgmt | `Controllers/RegistrationTokensController.cs` | [[../../features/2026-03-21-user-management]], [[../../features/2026-03-21-admin-features]] | [[../../tests/unit/test-user-management]], [[../../tests/unit/test-admin]] | — |
 
 ---
 
@@ -64,14 +65,21 @@ Dieses Mapping ist **maschinenlesbar** und wird von zukünftigen Agents für Cod
 
 ### Core Domain Entities
 
-| Model | Responsibility | Code Path | DB Table | Features | Validations |
+| Model | Responsibility | Code Path | DB Table | Features | Status |
 |---|---|---|---|---|---|
-| **User** | User account, credentials, profile | `DataAccess/Models/User.cs` | `Users` | [[../../features/2026-03-21-user-management]] | Email unique, Password hashed |
-| **Exercise** | Fitness exercise definition | `DataAccess/Models/Exercise.cs` | `Exercises` | [[../../features/2026-03-21-workout-tracking]] | Name required, FK to MuscleGroup |
-| **Workout** | Training session / plan | `DataAccess/Models/Workout.cs` | `Workouts` | [[../../features/2026-03-21-workout-tracking]] | FK to User, date required |
-| **MuscleGroup** | Muscle group category | `DataAccess/Models/MuscleGroup.cs` | `MuscleGroups` | — | Name required |
-| **Image** | Exercise image / demonstration | `DataAccess/Models/Image.cs` | `Images` | — | FK to Exercise, blob storage |
-| **RegistrationToken** | Invitation token for signup | `DataAccess/Models/RegistrationToken.cs` | `RegistrationTokens` | [[../../features/2026-03-21-user-management]] | Token unique, expires |
+| **User** | User account, credentials, profile | `DataAccess/Models/User.cs` | `Users` | [[../../features/2026-03-21-user-management]] | ✅ Implemented |
+| **Role** | User roles for RBAC | `DataAccess/Models/Role.cs` | `Roles` | [[../../features/2026-03-21-user-management]] | ✅ Implemented |
+| **RegistrationToken** | Invitation token for signup | `DataAccess/Models/RegistrationToken.cs` | `RegistrationTokens` | [[../../features/2026-03-21-user-management]], [[../../features/2026-03-21-admin-features]] | ✅ Implemented |
+| **Friendship** | Social connections between users | `DataAccess/Models/Friendship.cs` | `Friendships` | [[../../features/2026-03-21-user-management]] | ✅ Implemented |
+| **Exercise** | Fitness exercise definition | `DataAccess/Models/Exercise.cs` | `Exercises` | [[../../features/2026-03-21-workout-tracking]] | ✅ Implemented |
+| **ExerciseMuscleGroup** | Many-to-many Exercise ↔ MuscleGroup | `DataAccess/Models/ExerciseMuscleGroup.cs` | `ExerciseMuscleGroups` | [[../../features/2026-03-21-workout-tracking]] | ✅ Implemented |
+| **MuscleGroup** | Muscle group category | `DataAccess/Models/MuscleGroup.cs` | `MuscleGroups` | [[../../features/2026-03-21-workout-tracking]] | ✅ Implemented |
+| **TrainingPlan** | Training plan template | `DataAccess/Models/TrainingPlan.cs` | `TrainingPlans` | [[../../features/2026-03-21-workout-tracking]] | ✅ Implemented |
+| **TrainingDay** | Daily schedule within plan | `DataAccess/Models/TrainingDay.cs` | `TrainingDays` | [[../../features/2026-03-21-workout-tracking]] | ✅ Implemented |
+| **PlanExercise** | Exercise assignment to training day | `DataAccess/Models/PlanExercise.cs` | `PlanExercises` | [[../../features/2026-03-21-workout-tracking]] | ✅ Implemented |
+| **WorkoutSession** | Training session execution | `DataAccess/Models/WorkoutSession.cs` | `WorkoutSessions` | [[../../features/2026-03-21-workout-tracking]] | ✅ Implemented |
+| **WorkoutLog** | Exercise performance log | `DataAccess/Models/WorkoutLog.cs` | `WorkoutLogs` | [[../../features/2026-03-21-workout-tracking]] | ✅ Implemented |
+| **Image** | Exercise/profile images | `DataAccess/Models/Image.cs` | `Images` | [[../../features/2026-03-21-user-management]], [[../../features/2026-03-21-workout-tracking]], [[../../features/2026-03-22-image-management]] | ✅ Implemented |
 
 ### ViewModels (Presentation Models)
 
@@ -151,14 +159,12 @@ Dieses Mapping ist **maschinenlesbar** und wird von zukünftigen Agents für Cod
 
 ## 🔗 Feature → Test Mapping (Bidirectional)
 
-| Feature | Test Suite | Code Path | Status |
-|---|---|---|---|
-| **User Registration** | `test-auth` | `Tests/AuthTests.cs` (missing) | ⚠️ Tests Missing |
-| **User Login** | `test-auth` | `Tests/AuthTests.cs` (missing) | ⚠️ Tests Missing |
-| **Google OAuth2** | `test-oauth` | `Tests/OAuthTests.cs` (missing) | ⚠️ Tests Missing |
-| **Exercise CRUD** | `test-exercises` | `Tests/ExerciseTests.cs` (missing) | ⚠️ Tests Missing |
-| **Workout Management** | `test-workouts` | `Tests/WorkoutTests.cs` (missing) | ⚠️ Tests Missing |
-| **Password Hashing** | `test-security` | `Tests/SecurityTests.cs` (missing) | ⚠️ Tests Missing |
+| Feature | Test Suite | Documentation | Implementation | Status |
+|---|---|---|---|---|
+| [[../../features/2026-03-21-user-management]] | [[../../tests/unit/test-user-management]] | ✅ Created | ❌ Pending | 📝 Documented |
+| [[../../features/2026-03-21-workout-tracking]] | [[../../tests/unit/test-workout-tracking]] | ✅ Created | ❌ Pending | 📝 Documented |
+| [[../../features/2026-03-21-admin-features]] | [[../../tests/unit/test-admin]] | ✅ Created | ❌ Pending | 📝 Documented |
+| [[../../features/2026-03-22-image-management]] | [[../../tests/unit/test-image-management]] | ✅ Created | ❌ Pending | 📝 Documented |
 
 ---
 
@@ -176,13 +182,15 @@ Dieses Mapping ist **maschinenlesbar** und wird von zukünftigen Agents für Cod
 
 ## 🚀 Feature Roadmap & Code Status
 
-| Feature | Status | Epic | Code | Tests | ADR |
+| Feature | Status | Code | Tests | Docs | ADR |
 |---|---|---|---|---|---|
-| [[../../features/2026-03-21-user-management]] | ✅ In Scope | User Management | [[../building_block_view#1-presentation-layer-controllers--views]] (AccountController) | ⚠️ Missing | — |
-| [[../../features/2026-03-21-workout-tracking]] | ✅ In Scope | Workout Tracking | [[../building_block_view#1-presentation-layer-controllers--views]] (ExercisesController) | ⚠️ Missing | ADR-001 |
-| Data Export (CSV) | 📋 Planned | Analytics | — | — | — |
-| Social Sharing (Workouts) | 📋 Planned | Community | — | — | — |
-| Mobile App (React Native) | 🔮 Future | Mobile | — | — | — |
+| [[../../features/2026-03-21-user-management]] | ✅ Released | ✅ Implemented | 📝 [[../../tests/unit/test-user-management|Documented]] | ✅ Comprehensive | — |
+| [[../../features/2026-03-21-workout-tracking]] | ✅ Released | ✅ Implemented | 📝 [[../../tests/unit/test-workout-tracking|Documented]] | ✅ Comprehensive | [[../../adrs/adr-001-use-entity-framework]] |
+| [[../../features/2026-03-21-admin-features]] | ✅ Released | ✅ Implemented | 📝 [[../../tests/unit/test-admin|Documented]] | ✅ Comprehensive | — |
+| [[../../features/2026-03-22-image-management]] | ✅ Released | ✅ Implemented | 📝 [[../../tests/unit/test-image-management|Documented]] | ✅ Comprehensive | [[../../adrs/adr-001-use-entity-framework]] |
+| Data Export (CSV) | 📋 Planned | — | — | — | — |
+| Social Sharing (Workouts) | 📋 Planned | — | — | — | — |
+| Mobile App (React Native) | 🔮 Future | — | — | — | — |
 
 ---
 
